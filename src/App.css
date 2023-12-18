@@ -2,17 +2,6 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -24,15 +13,82 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+i {
+  margin-top: 40px;
+  max-width: 300px;
+  font-size: small;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+::selection {
+  position: relative;
+  background-color: #282c34;
+  color: #ffffff;
+}
+
+input:focus {
+  box-shadow: inset 0 0 0 3px #ffd000;
+  outline: none;
+}
+
+.board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.board-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.board-row-selected {
+  display: flex;
+  flex-direction: row;
+  border: #ffffff solid 3px;
+}
+
+.board-cell {
+  text-transform: capitalize;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+  max-width: 70px;
+  max-height: 70px;
+  width: 11vw;
+  height: 11vw;
+  color: white;
+  background-color: #282c34;
+  border: 1px solid #8b8b8b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.board-cell-matching {
+  text-transform: capitalize;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+  max-width: 70px;
+  max-height: 70px;
+  width: 11vw;
+  height: 11vw;
+  color: white;
+  background-color: #005d00;
+  border: 1px solid #8b8b8b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.submit {
+  margin-top: 20px;
+  padding: 10px;
+  font-size: 20px;
+  color: white;
+  background-color: #282c34;
+  border: 1px solid #ffffff;
+  border-radius: 10px;
+  cursor: pointer;
 }
