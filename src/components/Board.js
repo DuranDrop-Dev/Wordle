@@ -171,11 +171,25 @@ const Board = () => {
             return;
         } else {
             if (rowTurn < 5) {
+                // next row
                 setRowTurn(rowTurn + 1);
             } else {
+                // handle losing
+                alert('You Lose! Try Again!');
                 setRowTurn(1);
+
+                // Manually clear input values
+                const clearedInputValues = Object.keys(inputValues).reduce((acc, key) => {
+                    acc[key] = { value: '', match: false };
+                    return acc;
+                }, {});
+
+                // Reset game state and update React state
+                setInputValues(clearedInputValues);
                 randomizeWordle();
             }
+
+            // Manually clear input values
             setUserGuess([...initialGuess]);
             setMatchingIndexes([]);
         }
