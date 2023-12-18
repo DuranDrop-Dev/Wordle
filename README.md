@@ -1,6 +1,8 @@
 # Wordle
 
-This is an interpretation of the popular word game Wordle, written in REACT. Square turns green if the guessed letter is in the right position. The boxes that have a letter within the wordle but is in the wrong position should turn yellow upon submission but the logic has not been codded yet.
+This is an interpretation of the popular word game Wordle, written in REACT. Square turns green if the guessed letter is in the right position. The boxes that have a letter within the wordle but is in the wrong position should turn yellow upon submission but the logic has not been coded yet.
+
+Live version of the web app can be found here: <a href="https://wordle.durandrop.com">wordle.durandrop.com</a>
 
 ## Future updates
 
@@ -8,4 +10,4 @@ This is an interpretation of the popular word game Wordle, written in REACT. Squ
 
 ## Known Issues
 
-Testing has not been intensive enough to squash out all bugs
+Testing has not been intensive enough to squash out all bugs. If found they shall be published here.
