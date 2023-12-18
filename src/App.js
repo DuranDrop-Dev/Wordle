@@ -11,6 +11,11 @@ function App() {
           This is for educational purposes only.
           This game is my interpertation of Wordle written in REACT.
         </i>
+        <i>Source at Github:</i>
+        <a
+          href="https://github.com/DuranDrop-Dev/Wordle"
+          target="_blank"
+          rel="noopener noreferrer">Github</a>
       </header>
     </div>
   );
