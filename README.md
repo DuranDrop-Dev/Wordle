@@ -7,6 +7,8 @@ Live version of the web app can be found here: <a href="https://wordle.durandrop
 ## Future updates
 
 -Squares need to turn yellow if the letter is used in the wordle but is not in the right position
+=User input should allow existing words only
+-Onscreen keyboard
 
 ## Known Issues
 
