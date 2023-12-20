@@ -13,3 +13,8 @@ Live version of the web app can be found here: <a href="https://wordle.durandrop
 ## Known Issues
 
 Testing has not been intensive enough to squash out all bugs. If found they shall be published here.
+
+## Changelog
+
+12/19/23
+<li>Autofocus on next cell implented
