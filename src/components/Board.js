@@ -71,9 +71,13 @@ const Board = () => {
      * @return {void} No return value.
      */
     const handleStart = () => {
+        // Start the game
         randomizeWordle();
         setRowTurn(1);
         setIsStarted(true);
+
+        // Select the first cell and focus on it
+        handleFirstCellFocus();
     }
 
     /**
@@ -109,6 +113,36 @@ const Board = () => {
         const newArrayGuess = [...userGuess];
         newArrayGuess[cellLocation - 1] = keyValue;
         setUserGuess(newArrayGuess);
+    }
+
+    /**
+     * Handles the focus on the first cell in a new row.
+     *
+     * @return {void} No return value.
+     */
+    const handleNewRowFocus = () => {
+        const cellName = document.getElementById(`cell-${rowTurn * 5 + 1}`);
+
+        setTimeout(() => {
+            cellName.select();
+            cellName.focus();
+        }, 200);
+    }
+
+    /**
+     * Selects the first cell and focuses on it after a delay of 200 milliseconds.
+     *
+     * @param {none} none
+     * @return {none} none
+     */
+    const handleFirstCellFocus = () => {
+        // Select the first cell and focus on it
+        const firstCell = document.getElementById("cell-1");
+
+        setTimeout(() => {
+            firstCell.select();
+            firstCell.focus();
+        }, 200);
     }
 
     /**
@@ -173,6 +207,7 @@ const Board = () => {
             if (rowTurn < 5) {
                 // next row
                 setRowTurn(rowTurn + 1);
+                handleNewRowFocus();
             } else {
                 // handle losing
                 alert('You Lose! Try Again!');
@@ -187,6 +222,8 @@ const Board = () => {
                 // Reset game state and update React state
                 setInputValues(clearedInputValues);
                 randomizeWordle();
+
+                handleFirstCellFocus();
             }
 
             // Manually clear input values
@@ -229,6 +266,31 @@ const Board = () => {
     };
 
     /**
+     * Handles the key up event.
+     *
+     * @param {Event} event - The key up event.
+     */
+    const handleOnKeyUp = (event) => {
+        const currentCellId = event.target.id;
+
+        const cellPrefix = "cell-";
+
+        const currentCellNumber = (currentCellId.match(/\d+/g) || []).join('');
+
+        const nextCellNumber = parseInt(currentCellNumber) + 1;
+
+        const nextCellId = document.getElementById(`${cellPrefix}${nextCellNumber.toString()}`);
+
+        if (currentCellNumber % 5 === 0 || currentCellId === 25) {
+            event.target.focus();
+            event.target.select();
+        } else {
+            nextCellId.focus();
+            nextCellId.select();
+        }
+    }
+
+    /**
      * Checks if a cell in a row matches a specific value.
      *
      * @param {number} row - The row number.
@@ -252,7 +314,7 @@ const Board = () => {
                                 autoComplete="off"
                                 className={isCellMatching(rowIndex + 1, cellIndex + 1) ? "board-cell-matching" : "board-cell"}
                                 onKeyDown={(event) => handleInputChange(event, cellIndex + 1)}
-                                onKeyUp={(event) => event.target.select()}
+                                onKeyUp={(event) => handleOnKeyUp(event)}
                                 disabled={isRowDisabled(rowIndex + 1)}
                                 maxLength={1}
                                 id={cellKey}
