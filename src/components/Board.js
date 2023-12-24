@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Typo from 'typo-js';
 
 /**
  * A React component that represents a game board for a word-guessing game called Wordle.
@@ -73,10 +74,11 @@ const Board = () => {
     const handleStart = () => {
         // Start the game
         randomizeWordle();
+
         setRowTurn(1);
+
         setIsStarted(true);
 
-        // Select the first cell and focus on it
         handleFirstCellFocus();
     }
 
@@ -108,10 +110,13 @@ const Board = () => {
      */
     const handleInputChange = (event, cell) => {
         const keyValue = event.key;
+
         const cellLocation = cell;
 
         const newArrayGuess = [...userGuess];
+
         newArrayGuess[cellLocation - 1] = keyValue;
+
         setUserGuess(newArrayGuess);
     }
 
@@ -145,91 +150,45 @@ const Board = () => {
         }, 200);
     }
 
-    /**
-     * Handles the submission.
-     * Checks if the user's guess is valid and alerts if it is not.
-     * Updates the matchingIndexes state if the user's guess matches the wordle.
-     * Alerts the user if they have won the game and resets the game state.
-     * Increments the rowTurn state if the user has not won the game.
-     *
-     * @return {void}
-     */
-    const handleSubmit = () => {
+    // Check for winning condition
+    const checkWordLength = () => {
         if (userGuess.join('').length !== 5) {
             alert('Word must be 5 characters.');
             return;
         }
+    }
 
-        const updatedMatchingIndexes = [...matchingIndexes];
+    // TODO: Fix spell check
+    const checkWordSpelling = () => {
+        // Check if user's guess is valid through spelling
+        var dictionary = new Typo("en_US", false, false, { dictionaryPath: "typo/dictionaries" });
 
-        // Match userGuess with wordle
-        for (let i = 0; i < wordle.length; i++) {
-            if (wordle[i] === userGuess[i]) {
-                updatedMatchingIndexes.push(i);
-            }
-        }
+        const userWord = userGuess.join('');
 
-        setMatchingIndexes(updatedMatchingIndexes);
+        const isValidWord = dictionary.check(userWord);
 
-        // Set match to true for all matching indexes
-        setInputValues((inputValues) => {
-            const newInputValues = { ...inputValues };
-            const rows = 5
-            updatedMatchingIndexes.forEach((index) => {
-                if (rowTurn === 1) {
-                    newInputValues[`cell-${index + 1}`].match = true;
-                } else (
-                    newInputValues[`cell-${(index + 1) + (rows * (rowTurn - 1))}`].match = true
-                )
-            });
-            return newInputValues;
-        });
+        console.log(userWord);
+        console.log(isValidWord);
 
-        // Check if User won
-        if (updatedMatchingIndexes.length === wordle.length) {
-            alert('You Win!');
-            setRowTurn(1);
-
-            // Manually clear input values
-            const clearedInputValues = Object.keys(inputValues).reduce((acc, key) => {
-                acc[key] = { value: '', match: false };
-                return acc;
-            }, {});
-
-            // Reset game state and update React state
-            setInputValues(clearedInputValues);
-            setUserGuess([...initialGuess]);
-            setMatchingIndexes([]);
-            randomizeWordle();
-
+        /* if (isValidWord === false) {
+            alert('Word is not valid. Spell check and try again.');
             return;
-        } else {
-            if (rowTurn < 5) {
-                // next row
-                setRowTurn(rowTurn + 1);
-                handleNewRowFocus();
-            } else {
-                // handle losing
-                alert('You Lose! Try Again!');
-                setRowTurn(1);
+        } */
+    }
 
-                // Manually clear input values
-                const clearedInputValues = Object.keys(inputValues).reduce((acc, key) => {
-                    acc[key] = { value: '', match: false };
-                    return acc;
-                }, {});
+    /**
+     * Removes old values from inputValues and sets them to an empty string.
+     *
+     * @return {void} 
+     */
+    const removeOldValues = () => {
+        // Manually clear input values
+        const clearedInputValues = Object.keys(inputValues).reduce((acc, key) => {
+            acc[key] = { value: '', match: false };
+            return acc;
+        }, {});
 
-                // Reset game state and update React state
-                setInputValues(clearedInputValues);
-                randomizeWordle();
-
-                handleFirstCellFocus();
-            }
-
-            // Manually clear input values
-            setUserGuess([...initialGuess]);
-            setMatchingIndexes([]);
-        }
+        setInputValues(clearedInputValues);
     }
 
     /**
@@ -239,9 +198,11 @@ const Board = () => {
      */
     const randomizeWordle = () => {
         const randomIndex = Math.floor(Math.random() * commonFiveLetterWords.length);
+
         const randomWord = commonFiveLetterWords[randomIndex];
 
         setWordle(randomWord);
+
         console.log(randomWord);
     }
 
@@ -254,13 +215,17 @@ const Board = () => {
      */
     const setInputValuesOnChange = (event, row, cell) => {
         const value = event.target.value;
+
         setInputValues((prevInputValues) => {
             const newInputValues = { ...prevInputValues };
+
             const key = `cell-${(row - 1) * 5 + cell}`;
+
             newInputValues[key] = {
                 value: value,
                 match: false,
             };
+
             return newInputValues;
         });
     };
@@ -299,6 +264,91 @@ const Board = () => {
      */
     const isCellMatching = (row, cell) => {
         return inputValues[`cell-${(row - 1) * 5 + cell}`].match;
+    }
+
+    /**
+    * Handles the submission.
+    * Checks if the user's guess is valid and alerts if it is not.
+    * Updates the matchingIndexes state if the user's guess matches the wordle.
+    * Alerts the user if they have won the game and resets the game state.
+    * Increments the rowTurn state if the user has not won the game.
+    *
+    * @return {void}
+    */
+    const handleSubmit = () => {
+        checkWordLength();
+
+        // checkWordSpelling();
+
+        // Check if user's word matches the wordle
+        const updatedMatchingIndexes = [...matchingIndexes];
+
+        // Match userGuess with wordle indexes
+        for (let i = 0; i < wordle.length; i++) {
+            if (wordle[i] === userGuess[i]) {
+                updatedMatchingIndexes.push(i);
+            }
+        }
+
+        setMatchingIndexes(updatedMatchingIndexes);
+
+        // Set match to true for all matching indexes
+        setInputValues((inputValues) => {
+            const newInputValues = { ...inputValues };
+
+            const rows = 5
+
+            updatedMatchingIndexes.forEach((index) => {
+                if (rowTurn === 1) {
+                    newInputValues[`cell-${index + 1}`].match = true;
+                } else (
+                    newInputValues[`cell-${(index + 1) + (rows * (rowTurn - 1))}`].match = true
+                )
+            });
+
+            return newInputValues;
+        });
+
+        // Check if User won
+        if (updatedMatchingIndexes.length === wordle.length) {
+            alert('You Win!');
+
+            // Reset game state and update React state
+            removeOldValues();
+
+            setRowTurn(1);
+
+            setUserGuess([...initialGuess]);
+
+            setMatchingIndexes([]);
+
+            randomizeWordle();
+
+            return;
+        } else {
+            if (rowTurn < 5) {
+                // next row
+                setRowTurn(rowTurn + 1);
+
+                handleNewRowFocus();
+            } else {
+                // Alert losing message
+                alert('You Lose! Try Again!');
+
+                // Reset game state and update React state
+                removeOldValues();
+
+                setRowTurn(1);
+
+                setUserGuess([...initialGuess]);
+
+                setMatchingIndexes([]);
+
+                randomizeWordle();
+
+                handleFirstCellFocus();
+            }
+        }
     }
 
     return (
