@@ -55,6 +55,7 @@ const Board = () => {
         'blame', 'blind', 'blood', 'board', 'booth',
         'bound', 'brain', 'brand', 'bread', 'break',
         'brief', 'bring', 'broke', 'brown', 'build',
+        'bully',
         'buyer', 'cable', 'calif', 'carry', 'catch',
         'cause', 'chain', 'chair', 'chart', 'cheap',
         'check', 'chest', 'chief', 'child', 'chill',
@@ -107,7 +108,7 @@ const Board = () => {
         'proof', 'proud', 'prove', 'queen', 'quick',
         'quiet', 'quite', 'radio', 'raise', 'range',
         'rapid', 'ratio', 'reach', 'ready', 'refer',
-        'reset',
+        'relay','reset',
         'right', 'rival', 'river', 'robin', 'roger',
         'roman', 'rough', 'round', 'route', 'royal',
         'rural', 'scale', 'scene', 'score', 'sense',
@@ -299,7 +300,7 @@ const Board = () => {
 
         const nextCellId = document.getElementById(`${cellPrefix}${nextCellNumber.toString()}`);
 
-        if (currentCellNumber % 5 === 0 || currentCellId === 25) {
+        if (currentCellNumber % 5 === 0 || currentCellId === 30) {
             event.target.focus();
             event.target.select();
         } else {
@@ -368,13 +369,13 @@ const Board = () => {
         setInputValues((inputValues) => {
             const newInputValues = { ...inputValues };
 
-            const rows = 6
+            const cells = 5
 
             updatedMatchingIndexes.forEach((index) => {
                 if (rowTurn === 1) {
                     newInputValues[`cell-${index + 1}`].match = true;
                 } else (
-                    newInputValues[`cell-${(index + 1) + (rows * (rowTurn - 1))}`].match = true
+                    newInputValues[`cell-${(index + 1) + (cells * (rowTurn - 1))}`].match = true
                 )
             });
 
