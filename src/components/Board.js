@@ -89,7 +89,7 @@ const Board = () => {
         'level', 'lewis', 'light', 'limit', 'links',
         'lives', 'local', 'logic', 'loose', 'lower',
         'lucky', 'lunch', 'lying', 'magic', 'major',
-        'maker', 'march', 'maria', 'marry', 'match', 
+        'maker', 'march', 'maria', 'marry', 'match',
         'maybe',
         'mayor', 'meant', 'media', 'metal', 'might',
         'minor', 'minus', 'mixed', 'model', 'money',
@@ -238,6 +238,10 @@ const Board = () => {
     */
     const isCellMatching = (row, cell) => {
         return inputValues[`cell-${(row - 1) * 5 + cell}`].match;
+    }
+
+    const isUserGuessLetterInWordle = () => {
+        // Check if user guess letter is in wordle
     }
 
     /**
@@ -438,7 +442,13 @@ const Board = () => {
                             <input
                                 type="text"
                                 autoComplete="off"
-                                className={isCellMatching(rowIndex + 1, cellIndex + 1) ? "board-cell-matching" : "board-cell"}
+                                className={
+                                    isCellMatching(rowIndex + 1, cellIndex + 1)
+                                        ? "board-cell-green"
+                                        : isUserGuessLetterInWordle(rowIndex + 1, cellIndex + 1)
+                                            ? "board-cell-yellow"
+                                            : "board-cell"
+                                }
                                 onKeyDown={(event) => handleInputChange(event, cellIndex + 1)}
                                 disabled={isRowDisabled(rowIndex + 1)}
                                 maxLength={1}

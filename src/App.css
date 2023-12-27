@@ -72,7 +72,7 @@ input:focus {
   justify-content: center;
 }
 
-.board-cell-matching {
+.board-cell-green {
   text-transform: capitalize;
   font-size: 30px;
   font-weight: bold;
@@ -83,6 +83,23 @@ input:focus {
   height: 11vw;
   color: white;
   background-color: #005d00;
+  border: 1px solid #8b8b8b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.board-cell-yellow {
+  text-transform: capitalize;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+  max-width: 70px;
+  max-height: 70px;
+  width: 11vw;
+  height: 11vw;
+  color: white;
+  background-color: #5d5d00;
   border: 1px solid #8b8b8b;
   display: flex;
   align-items: center;
