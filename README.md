@@ -7,7 +7,6 @@ Live version of the web app can be found here: <a href="https://wordle.durandrop
 ## Future updates
 
 <li>Squares need to turn yellow if the letter is used in the wordle but is not in the right position</li>
-<li>User input should allow existing words only</li>
 <li>Onscreen keyboard</li>
 
 ## Known Issues
@@ -16,5 +15,10 @@ Testing has not been intensive enough to squash out all bugs. If found they shal
 
 ## Changelog
 
-12/19/23
-<li>Autofocus on next cell implented
+#### 12/19/23
+<li>Autofocus on next cell implemented
+
+#### 12/26/23
+<li>Added a sixth row</li>
+<li>User input allows existing words only</li>
+<li>Code readability improved</li>
