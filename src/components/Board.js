@@ -42,25 +42,97 @@ const Board = () => {
     };
 
     const commonFiveLetterWords = [
-        'apple', 'happy', 'music', 'table', 'bread',
-        'house', 'smart', 'chair', 'peace', 'beach',
-        'earth', 'cloud', 'smile', 'grape', 'ocean',
-        'sunny', 'piano', 'queen', 'night', 'grass',
-        'toast', 'river', 'honey', 'fence', 'flute',
-        'amber', 'train', 'light', 'fairy', 'blend',
-        'fresh', 'lemon', 'lunar', 'laser', 'quiet',
-        'spark', 'magic', 'frost', 'power', 'lunar',
-        'dance', 'cloud', 'swirl', 'lucky', 'drift',
-        'flock', 'heart', 'puppy', 'dream', 'peace',
-        'wheat', 'flame', 'happy', 'beard', 'spear',
-        'maple', 'lunar', 'grain', 'sugar', 'chord',
-        'charm', 'happy', 'globe', 'green', 'spoon',
-        'music', 'brush', 'sweet', 'sugar', 'flour',
-        'grain', 'field', 'chase', 'brave', 'stone',
-        'plant', 'light', 'dream', 'grace', 'sweep',
-        'smile', 'green', 'dream', 'peace', 'shine',
-        'skirt', 'frost', 'toast', 'angel', 'frost',
-        'chill', 'bliss', 'shine', 'apple', 'bread'
+        'actor', 'adopt', 'admit', 'adult', 'after',
+        'again', 'agent', 'alarm', 'alive', 'allow',
+        'alone', 'alter', 'angel', 'apart', 'apple',
+        'apply', 'arena', 'argue', 'array', 'aside',
+        'asset', 'audio', 'audit', 'award', 'badly',
+        'baker', 'bases', 'basic', 'beach', 'begin',
+        'being', 'bench', 'billy', 'birth', 'black',
+        'blame', 'blind', 'blood', 'board', 'booth',
+        'bound', 'brain', 'brand', 'bread', 'break',
+        'brief', 'bring', 'broke', 'brown', 'build',
+        'buyer', 'cable', 'calif', 'carry', 'catch',
+        'cause', 'chain', 'chair', 'chart', 'cheap',
+        'check', 'chest', 'chief', 'child', 'chill', 'china',
+        'chose', 'civil', 'claim', 'clean', 'clear',
+        'click', 'clock', 'close', 'coach', 'coast',
+        'could', 'count', 'court', 'cover', 'craft',
+        'cream', 'crime', 'cross', 'crown', 'curve',
+        'daily', 'dance', 'dated', 'dealt', 'death',
+        'delay', 'depth', 'doubt', 'dozen', 'draft',
+        'drama', 'drawn', 'dream', 'dress', 'drink',
+        'drive', 'drove', 'eager', 'early', 'earth',
+        'eight', 'elite', 'empty', 'enemy', 'enjoy',
+        'enter', 'entry', 'equal', 'error', 'event',
+        'every', 'exact', 'exist', 'extra', 'faith',
+        'false', 'fault', 'fiber', 'field', 'fifth',
+        'fifty', 'fight', 'final', 'first', 'fixed',
+        'flash', 'fleet', 'floor', 'fluid', 'focus',
+        'force', 'forth', 'forum', 'found', 'frame',
+        'frank', 'fraud', 'fresh', 'front', 'fruit',
+        'fudge', 'fully', 'funny', 'given', 'glass', 
+        'glory', 'going', 'grain', 'grief', 'grove',
+        'grace', 'grade', 'grand', 'grant', 'grass',
+        'great', 'green', 'gross', 'group', 'grown',
+        'guard', 'guess', 'guide', 'happy', 'harry',
+        'heart', 'heavy', 'hence', 'henry', 'horse',
+        'hotel', 'house', 'human', 'ideal', 'image',
+        'index', 'inner', 'input', 'issue', 'japan',
+        'jimmy', 'joint', 'jones', 'judge', 'known',
+        'label', 'large', 'laser', 'later', 'laugh',
+        'layer', 'learn', 'least', 'leave', 'legal',
+        'level', 'lewis', 'light', 'limit', 'links',
+        'lives', 'local', 'logic', 'loose', 'lower',
+        'lucky', 'lunch', 'lying', 'magic', 'major',
+        'maker', 'march', 'maria', 'match', 'maybe',
+        'mayor', 'meant', 'media', 'metal', 'might',
+        'minor', 'minus', 'mixed', 'model', 'money',
+        'month', 'moral', 'motor', 'mount', 'mouse',
+        'mouth', 'movie', 'music', 'needs', 'never',
+        'night', 'noise', 'north', 'noted', 'novel',
+        'nurse', 'occur', 'ocean', 'offer', 'often',
+        'order', 'other', 'ought', 'paint', 'panel',
+        'paper', 'party', 'peace', 'peter', 'phase',
+        'phone', 'photo', 'piece', 'pilot', 'pitch',
+        'place', 'plain', 'plane', 'plant', 'plate',
+        'point', 'pound', 'power', 'press', 'price',
+        'pride', 'prime', 'print', 'prior', 'prize',
+        'proof', 'proud', 'prove', 'queen', 'quick',
+        'quiet', 'quite', 'radio', 'raise', 'range',
+        'rapid', 'ratio', 'reach', 'ready', 'refer', 'reset',
+        'right', 'rival', 'river', 'robin', 'roger',
+        'roman', 'rough', 'round', 'route', 'royal',
+        'rural', 'scale', 'scene', 'score', 'sense',
+        'serve', 'seven', 'shall', 'shape', 'share',
+        'sharp', 'sheet', 'shelf', 'shell', 'shift',
+        'shirt', 'shock', 'shoot', 'short', 'shown',
+        'sight', 'since', 'sixth', 'sized', 'skill',
+        'slide', 'small', 'smart', 'smith', 'smoke',
+        'solid', 'solve', 'sorry', 'sound', 'south',
+        'space', 'spare', 'speak', 'speed', 'spend',
+        'spent', 'spoke', 'sport', 'staff', 'stage',
+        'stake', 'start', 'state', 'steam', 'steel',
+        'stick', 'still', 'stock', 'stone', 'stood',
+        'store', 'storm', 'story', 'strip', 'stuck',
+        'study', 'stuff', 'style', 'sugar', 'suite',
+        'super', 'sweet', 'table', 'taken', 'taste',
+        'teach', 'teeth', 'terry', 'texas', 'thank',
+        'theft', 'their', 'theme', 'there', 'these',
+        'thick', 'thing', 'think', 'third', 'those',
+        'three', 'threw', 'throw', 'tight', 'times',
+        'tired', 'title', 'today', 'topic', 'total',
+        'touch', 'tower', 'track', 'trade', 'train',
+        'trend', 'trial', 'tried', 'tries', 'truck',
+        'truly', 'trust', 'truth', 'twice', 'under',
+        'undue', 'union', 'unity', 'until', 'upper',
+        'upset', 'urban', 'usage', 'usual', 'valid',
+        'value', 'video', 'virus', 'visit', 'vital',
+        'voice', 'waste', 'watch', 'water', 'wheel',
+        'where', 'which', 'while', 'white', 'whole',
+        'whose', 'woman', 'women', 'world', 'worry',
+        'worse', 'worst', 'worth', 'would', 'wound',
+        'write', 'wrong'
     ];
 
     const [userGuess, setUserGuess] = useState([...initialGuess]);
@@ -118,6 +190,10 @@ const Board = () => {
         newArrayGuess[cellLocation - 1] = keyValue;
 
         setUserGuess(newArrayGuess);
+
+        setTimeout(() => {
+            handleNextCellFocus(event);
+        }, 50);
     }
 
     /**
@@ -125,13 +201,11 @@ const Board = () => {
      *
      * @return {void} No return value.
      */
-    const handleNewRowFocus = () => {
-        const cellName = document.getElementById(`cell-${rowTurn * 5 + 1}`);
+    const handleNewRowFocus = async () => {
+        const cellName = await document.getElementById(`cell-${rowTurn * 5 + 1}`);
 
-        setTimeout(() => {
-            cellName.select();
-            cellName.focus();
-        }, 200);
+        cellName.select();
+        cellName.focus();
     }
 
     /**
@@ -140,35 +214,25 @@ const Board = () => {
      * @param {none} none
      * @return {none} none
      */
-    const handleFirstCellFocus = () => {
+    const handleFirstCellFocus = async () => {
         // Select the first cell and focus on it
-        const firstCell = document.getElementById("cell-1");
+        const firstCell = await document.getElementById("cell-1");
 
-        setTimeout(() => {
-            firstCell.select();
-            firstCell.focus();
-        }, 200);
-    }
-
-    // Check for winning condition
-    const checkWordLength = () => {
-        if (userGuess.join('').length !== 5) {
-            alert('Word must be 5 characters.');
-            return;
-        }
+        firstCell.select();
+        firstCell.focus();
     }
 
     // TODO: Fix spell check
     const checkWordSpelling = () => {
-        // Check if user's guess is valid through spelling
-        var dictionary = new Typo("en_US", false, false, { dictionaryPath: "typo/dictionaries" });
+        const dictionary = new Typo('en_US');
 
         const userWord = userGuess.join('');
 
-        const isValidWord = dictionary.check(userWord);
+        const isValidWord = dictionary.isMisspelled(userWord);
 
         console.log(userWord);
         console.log(isValidWord);
+        console.log(commonFiveLetterWords.length);
 
         /* if (isValidWord === false) {
             alert('Word is not valid. Spell check and try again.');
@@ -235,7 +299,7 @@ const Board = () => {
      *
      * @param {Event} event - The key up event.
      */
-    const handleOnKeyUp = (event) => {
+    const handleNextCellFocus = (event) => {
         const currentCellId = event.target.id;
 
         const cellPrefix = "cell-";
@@ -266,6 +330,12 @@ const Board = () => {
         return inputValues[`cell-${(row - 1) * 5 + cell}`].match;
     }
 
+    // Check if word is in dictionary
+    const isWordInDictionary = () => {
+        // Check if word is in dictionary
+        return commonFiveLetterWords.includes(userGuess.join(''));
+    };
+
     /**
     * Handles the submission.
     * Checks if the user's guess is valid and alerts if it is not.
@@ -276,9 +346,19 @@ const Board = () => {
     * @return {void}
     */
     const handleSubmit = () => {
-        checkWordLength();
+        // Check if user's word is 5 characters
+        if (userGuess.join('').length !== 5) {
+            alert('Word must be 5 characters.');
+            return;
+        }
 
-        // checkWordSpelling();
+        // Check if word is in dictionary
+        if (!isWordInDictionary()) {
+            alert("Word is not in Worldle's dictionary. Spell check and try again.");
+            return;
+        }
+
+        //checkWordSpelling();
 
         // Check if user's word matches the wordle
         const updatedMatchingIndexes = [...matchingIndexes];
@@ -331,6 +411,8 @@ const Board = () => {
                 setRowTurn(rowTurn + 1);
 
                 handleNewRowFocus();
+
+                setMatchingIndexes([]);
             } else {
                 // Alert losing message
                 alert('You Lose! Try Again!');
@@ -364,7 +446,6 @@ const Board = () => {
                                 autoComplete="off"
                                 className={isCellMatching(rowIndex + 1, cellIndex + 1) ? "board-cell-matching" : "board-cell"}
                                 onKeyDown={(event) => handleInputChange(event, cellIndex + 1)}
-                                onKeyUp={(event) => handleOnKeyUp(event)}
                                 disabled={isRowDisabled(rowIndex + 1)}
                                 maxLength={1}
                                 id={cellKey}
