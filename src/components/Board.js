@@ -8,6 +8,8 @@ const Board = () => {
     const [matchingIndexes, setMatchingIndexes] = useState([]);
 
     const initialGuess = ['', '', '', '', ''];
+    const [userGuess, setUserGuess] = useState([...initialGuess]);
+
     const initialValues = {
         "cell-1": { value: '', match: false },
         "cell-2": { value: '', match: false },
@@ -40,6 +42,7 @@ const Board = () => {
         "cell-29": { value: '', match: false },
         "cell-30": { value: '', match: false },
     };
+    const [inputValues, setInputValues] = useState({ ...initialValues });
 
     const commonFiveLetterWords = [
         'actor', 'adopt', 'admit', 'adult', 'after',
@@ -138,9 +141,6 @@ const Board = () => {
         'worse', 'worst', 'worth', 'would', 'wound',
         'write', 'wrong'
     ];
-
-    const [userGuess, setUserGuess] = useState([...initialGuess]);
-    const [inputValues, setInputValues] = useState({ ...initialValues });
 
     /**
      * Handles the start of the process.
