@@ -1,11 +1,6 @@
 import { useState } from 'react';
-import Typo from 'typo-js';
 
-/**
- * A React component that represents a game board for a word-guessing game called Wordle.
- *
- * @return {JSX.Element} The rendered game board.
- */
+// Board for a word-guessing game called Wordle.
 const Board = () => {
     const [isStarted, setIsStarted] = useState(false);
     const [rowTurn, setRowTurn] = useState(0);
@@ -39,6 +34,11 @@ const Board = () => {
         "cell-23": { value: '', match: false },
         "cell-24": { value: '', match: false },
         "cell-25": { value: '', match: false },
+        "cell-26": { value: '', match: false },
+        "cell-27": { value: '', match: false },
+        "cell-28": { value: '', match: false },
+        "cell-29": { value: '', match: false },
+        "cell-30": { value: '', match: false },
     };
 
     const commonFiveLetterWords = [
@@ -54,7 +54,8 @@ const Board = () => {
         'brief', 'bring', 'broke', 'brown', 'build',
         'buyer', 'cable', 'calif', 'carry', 'catch',
         'cause', 'chain', 'chair', 'chart', 'cheap',
-        'check', 'chest', 'chief', 'child', 'chill', 'china',
+        'check', 'chest', 'chief', 'child', 'chill',
+        'china',
         'chose', 'civil', 'claim', 'clean', 'clear',
         'click', 'clock', 'close', 'coach', 'coast',
         'could', 'count', 'court', 'cover', 'craft',
@@ -71,7 +72,7 @@ const Board = () => {
         'flash', 'fleet', 'floor', 'fluid', 'focus',
         'force', 'forth', 'forum', 'found', 'frame',
         'frank', 'fraud', 'fresh', 'front', 'fruit',
-        'fudge', 'fully', 'funny', 'given', 'glass', 
+        'fudge', 'fully', 'funny', 'given', 'glass',
         'glory', 'going', 'grain', 'grief', 'grove',
         'grace', 'grade', 'grand', 'grant', 'grass',
         'great', 'green', 'gross', 'group', 'grown',
@@ -85,7 +86,8 @@ const Board = () => {
         'level', 'lewis', 'light', 'limit', 'links',
         'lives', 'local', 'logic', 'loose', 'lower',
         'lucky', 'lunch', 'lying', 'magic', 'major',
-        'maker', 'march', 'maria', 'match', 'maybe',
+        'maker', 'march', 'maria', 'marry', 'match', 
+        'maybe',
         'mayor', 'meant', 'media', 'metal', 'might',
         'minor', 'minus', 'mixed', 'model', 'money',
         'month', 'moral', 'motor', 'mount', 'mouse',
@@ -93,14 +95,16 @@ const Board = () => {
         'night', 'noise', 'north', 'noted', 'novel',
         'nurse', 'occur', 'ocean', 'offer', 'often',
         'order', 'other', 'ought', 'paint', 'panel',
-        'paper', 'party', 'peace', 'peter', 'phase',
+        'paper', 'party', 'paste', 'peace', 'peter',
+        'phase',
         'phone', 'photo', 'piece', 'pilot', 'pitch',
         'place', 'plain', 'plane', 'plant', 'plate',
         'point', 'pound', 'power', 'press', 'price',
         'pride', 'prime', 'print', 'prior', 'prize',
         'proof', 'proud', 'prove', 'queen', 'quick',
         'quiet', 'quite', 'radio', 'raise', 'range',
-        'rapid', 'ratio', 'reach', 'ready', 'refer', 'reset',
+        'rapid', 'ratio', 'reach', 'ready', 'refer',
+        'reset',
         'right', 'rival', 'river', 'robin', 'roger',
         'roman', 'rough', 'round', 'route', 'royal',
         'rural', 'scale', 'scene', 'score', 'sense',
@@ -155,6 +159,31 @@ const Board = () => {
     }
 
     /**
+    * Generates a random word from a list of common five-letter words and sets it as the value of the 'wordle' variable.
+    *
+    * @return {undefined} This function does not return anything.
+    */
+    const randomizeWordle = () => {
+        const randomIndex = Math.floor(Math.random() * commonFiveLetterWords.length);
+
+        const randomWord = commonFiveLetterWords[randomIndex];
+
+        setWordle(randomWord);
+
+        console.log(randomWord);
+    }
+
+    /**
+     * Check if word is in dictionary.
+     *
+     * @return {boolean} - true if word is in dictionary, false otherwise
+     */
+    const isWordInDictionary = () => {
+        // Check if word is in dictionary
+        return commonFiveLetterWords.includes(userGuess.join(''));
+    };
+
+    /**
      * Determines if a row is disabled.
      *
      * @param {any} row - The row to check.
@@ -172,28 +201,6 @@ const Board = () => {
      */
     const isBoardSelected = (row) => {
         return row === rowTurn;
-    }
-
-    /**
-     * Handles the input change event.
-     *
-     * @param {Object} event - The input change event object.
-     * @param {number} cell - The cell location.
-     */
-    const handleInputChange = (event, cell) => {
-        const keyValue = event.key;
-
-        const cellLocation = cell;
-
-        const newArrayGuess = [...userGuess];
-
-        newArrayGuess[cellLocation - 1] = keyValue;
-
-        setUserGuess(newArrayGuess);
-
-        setTimeout(() => {
-            handleNextCellFocus(event);
-        }, 50);
     }
 
     /**
@@ -222,22 +229,15 @@ const Board = () => {
         firstCell.focus();
     }
 
-    // TODO: Fix spell check
-    const checkWordSpelling = () => {
-        const dictionary = new Typo('en_US');
-
-        const userWord = userGuess.join('');
-
-        const isValidWord = dictionary.isMisspelled(userWord);
-
-        console.log(userWord);
-        console.log(isValidWord);
-        console.log(commonFiveLetterWords.length);
-
-        /* if (isValidWord === false) {
-            alert('Word is not valid. Spell check and try again.');
-            return;
-        } */
+    /**
+    * Checks if a cell in a row matches a specific value.
+    *
+    * @param {number} row - The row number.
+    * @param {number} cell - The cell number.
+    * @return {type} The value of the matching cell.
+    */
+    const isCellMatching = (row, cell) => {
+        return inputValues[`cell-${(row - 1) * 5 + cell}`].match;
     }
 
     /**
@@ -253,21 +253,6 @@ const Board = () => {
         }, {});
 
         setInputValues(clearedInputValues);
-    }
-
-    /**
-     * Generates a random word from a list of common five-letter words and sets it as the value of the 'wordle' variable.
-     *
-     * @return {undefined} This function does not return anything.
-     */
-    const randomizeWordle = () => {
-        const randomIndex = Math.floor(Math.random() * commonFiveLetterWords.length);
-
-        const randomWord = commonFiveLetterWords[randomIndex];
-
-        setWordle(randomWord);
-
-        console.log(randomWord);
     }
 
     /**
@@ -295,7 +280,7 @@ const Board = () => {
     };
 
     /**
-     * Handles the key up event.
+     * Handles next cell focus.
      *
      * @param {Event} event - The key up event.
      */
@@ -320,21 +305,26 @@ const Board = () => {
     }
 
     /**
-     * Checks if a cell in a row matches a specific value.
-     *
-     * @param {number} row - The row number.
-     * @param {number} cell - The cell number.
-     * @return {type} The value of the matching cell.
-     */
-    const isCellMatching = (row, cell) => {
-        return inputValues[`cell-${(row - 1) * 5 + cell}`].match;
-    }
+    * Handles the input change event.
+    *
+    * @param {Object} event - The input change event object.
+    * @param {number} cell - The cell location.
+    */
+    const handleInputChange = (event, cell) => {
+        const keyValue = event.key;
 
-    // Check if word is in dictionary
-    const isWordInDictionary = () => {
-        // Check if word is in dictionary
-        return commonFiveLetterWords.includes(userGuess.join(''));
-    };
+        const cellLocation = cell;
+
+        const newArrayGuess = [...userGuess];
+
+        newArrayGuess[cellLocation - 1] = keyValue;
+
+        setUserGuess(newArrayGuess);
+
+        setTimeout(() => {
+            handleNextCellFocus(event);
+        }, 50);
+    }
 
     /**
     * Handles the submission.
@@ -358,8 +348,6 @@ const Board = () => {
             return;
         }
 
-        //checkWordSpelling();
-
         // Check if user's word matches the wordle
         const updatedMatchingIndexes = [...matchingIndexes];
 
@@ -376,7 +364,7 @@ const Board = () => {
         setInputValues((inputValues) => {
             const newInputValues = { ...inputValues };
 
-            const rows = 5
+            const rows = 6
 
             updatedMatchingIndexes.forEach((index) => {
                 if (rowTurn === 1) {
@@ -404,9 +392,11 @@ const Board = () => {
 
             randomizeWordle();
 
+            handleFirstCellFocus();
+
             return;
         } else {
-            if (rowTurn < 5) {
+            if (rowTurn < 6) {
                 // next row
                 setRowTurn(rowTurn + 1);
 
@@ -435,8 +425,12 @@ const Board = () => {
 
     return (
         <div className="board">
-            {Array.from({ length: 5 }).map((_, rowIndex) => (
-                <div className={isBoardSelected(rowIndex + 1) ? "board-row-selected" : "board-row"} id={`row-${rowIndex + 1}`} key={`row-${rowIndex + 1}`}>
+            {Array.from({ length: 6 }).map((_, rowIndex) => (
+                <div
+                    className={isBoardSelected(rowIndex + 1) ? "board-row-selected" : "board-row"}
+                    id={`row-${rowIndex + 1}`}
+                    key={`row-${rowIndex + 1}`}
+                >
                     {Array.from({ length: 5 }).map((_, cellIndex) => {
                         const cellKey = `cell-${rowIndex * 5 + cellIndex + 1}`;
 
