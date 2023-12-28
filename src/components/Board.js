@@ -180,8 +180,11 @@ const Board = () => {
      * @return {boolean} - true if word is in dictionary, false otherwise
      */
     const isWordInDictionary = () => {
+        // Convert user guess to lowercase
+        const lowerCaseWord = userGuess.join('').toLowerCase();
+
         // Check if word is in dictionary
-        return commonFiveLetterWords.includes(userGuess.join(''));
+        return commonFiveLetterWords.includes(lowerCaseWord);
     };
 
     /**
@@ -322,7 +325,7 @@ const Board = () => {
 
         const newArrayGuess = [...userGuess];
 
-        newArrayGuess[cellLocation - 1] = keyValue;
+        newArrayGuess[cellLocation - 1] = keyValue.toLowerCase();
 
         setUserGuess(newArrayGuess);
 
@@ -341,7 +344,7 @@ const Board = () => {
     * @return {void}
     */
     const handleSubmit = () => {
-        // Check if user's word is 5 characters
+         // Check if user's word is 5 characters
         if (userGuess.join('').length !== 5) {
             alert('Word must be 5 characters.');
             return;
@@ -349,7 +352,7 @@ const Board = () => {
 
         // Check if word is in dictionary
         if (!isWordInDictionary()) {
-            alert("Word is not in Worldle's dictionary. Spell check and try again.");
+            alert("Word is not in Worldle's dictionary. Spell check or try another word.");
             return;
         }
 
@@ -408,9 +411,11 @@ const Board = () => {
                 handleNewRowFocus();
 
                 setMatchingIndexes([]);
+
+                setUserGuess([...initialGuess]);
             } else {
                 // Alert losing message
-                alert('You Lose! Try Again!');
+                alert('You Lose! Try Again! The Wordle was: ' + wordle.toUpperCase());
 
                 // Reset game state and update React state
                 removeOldValues();
