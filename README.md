@@ -12,13 +12,17 @@ Live version of the web app can be found here: <a href="https://wordle.durandrop
 ## Known Issues
 
 Testing has not been intensive enough to squash out all bugs. If found they shall be published here.
+<li>Further user input validation required</li>
 
 ## Changelog
 
 #### 12/19/23
-<li>Autofocus on next cell implemented
+<li>Autofocus on next cell implemented</li>
 
 #### 12/26/23
 <li>Added a sixth row</li>
 <li>User input allows existing words only</li>
 <li>Code readability improved</li>
+
+#### 12/27/23
+<li>User input is converted to lowercase</li>
