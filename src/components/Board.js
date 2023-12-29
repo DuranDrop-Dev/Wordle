@@ -179,10 +179,10 @@ const Board = () => {
     }
 
     /**
-     * Check if word is in dictionary.
-     *
-     * @return {boolean} - true if word is in dictionary, false otherwise
-     */
+    * Check if word is in dictionary.
+    *
+    * @return {boolean} - true if word is in dictionary, false otherwise
+    */
     const isWordInDictionary = () => {
         // Convert user guess to lowercase
         const lowerCaseWord = userGuess.join('').toLowerCase();
@@ -278,30 +278,6 @@ const Board = () => {
     }
 
     /**
-    * Sets input values on change event.
-    *
-    * @param {object} event - The change event object.
-    * @param {number} row - The row number.
-    * @param {number} cell - The cell number.
-    */
-    const setInputValuesOnChange = (event, row, cell) => {
-        const value = event.target.value;
-
-        setInputValues((prevInputValues) => {
-            const newInputValues = { ...prevInputValues };
-
-            const key = `cell-${(row - 1) * 5 + cell}`;
-
-            newInputValues[key] = {
-                value: value,
-                match: false,
-            };
-
-            return newInputValues;
-        });
-    };
-
-    /**
     * Handles next cell focus.
     *
     * @param {Event} event - The key up event.
@@ -349,8 +325,8 @@ const Board = () => {
             setUserGuess(newArrayGuess);
 
             // Update the input values
-            setInputValues((inputValues) => {
-                const newInputValues = { ...inputValues };
+            setInputValues((prevInputValues) => {
+                const newInputValues = { ...prevInputValues };
                 newInputValues[currentCellId] = { value: '', green: false, yellow: false };
                 return newInputValues;
             })
@@ -397,7 +373,7 @@ const Board = () => {
     * @param {Object} event - The input change event object.
     * @param {number} cell - The cell location.
     */
-    const handleInputChange = (event, cell) => {
+    const handleInputChange = (event, row, cell) => {
         const keyValue = event.key;
 
         const newArrayGuess = [...userGuess];
@@ -417,6 +393,20 @@ const Board = () => {
         setUserGuess(newArrayGuess);
 
         console.log(newArrayGuess);
+
+        setInputValues((prevInputValues) => {
+            const newInputValues = { ...prevInputValues };
+
+            const key = `cell-${(row - 1) * 5 + cell}`;
+
+            newInputValues[key] = {
+                value: keyValue,
+                green: false,
+                yellow: false
+            };
+
+            return newInputValues;
+        });
 
         setTimeout(() => {
             handleNextCellFocus(event);
@@ -547,14 +537,13 @@ const Board = () => {
                                             ? "board-cell-yellow"
                                             : "board-cell"
                                 }
-                                onKeyDown={(event) => handleInputChange(event, cellIndex + 1)}
+                                onKeyDown={(event) => handleInputChange(event, rowIndex + 1, cellIndex + 1)}
                                 disabled={isRowDisabled(rowIndex + 1)}
                                 maxLength={1}
                                 id={cellKey}
                                 key={cellKey}
                                 value={inputValues[cellKey].value}
                                 onClick={(event) => event.target.select()}
-                                onChange={(event) => setInputValuesOnChange(event, rowIndex + 1, cellIndex + 1)}
                             />
                         );
                     })}
