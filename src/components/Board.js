@@ -6,41 +6,42 @@ const Board = () => {
     const [rowTurn, setRowTurn] = useState(0);
     const [wordle, setWordle] = useState([]);
     const [matchingIndexes, setMatchingIndexes] = useState([]);
+    const [hasCharacter, setHasCharacter] = useState([]);
 
     const initialGuess = ['', '', '', '', ''];
     const [userGuess, setUserGuess] = useState([...initialGuess]);
 
     const initialValues = {
-        "cell-1": { value: '', match: false },
-        "cell-2": { value: '', match: false },
-        "cell-3": { value: '', match: false },
-        "cell-4": { value: '', match: false },
-        "cell-5": { value: '', match: false },
-        "cell-6": { value: '', match: false },
-        "cell-7": { value: '', match: false },
-        "cell-8": { value: '', match: false },
-        "cell-9": { value: '', match: false },
-        "cell-10": { value: '', match: false },
-        "cell-11": { value: '', match: false },
-        "cell-12": { value: '', match: false },
-        "cell-13": { value: '', match: false },
-        "cell-14": { value: '', match: false },
-        "cell-15": { value: '', match: false },
-        "cell-16": { value: '', match: false },
-        "cell-17": { value: '', match: false },
-        "cell-18": { value: '', match: false },
-        "cell-19": { value: '', match: false },
-        "cell-20": { value: '', match: false },
-        "cell-21": { value: '', match: false },
-        "cell-22": { value: '', match: false },
-        "cell-23": { value: '', match: false },
-        "cell-24": { value: '', match: false },
-        "cell-25": { value: '', match: false },
-        "cell-26": { value: '', match: false },
-        "cell-27": { value: '', match: false },
-        "cell-28": { value: '', match: false },
-        "cell-29": { value: '', match: false },
-        "cell-30": { value: '', match: false },
+        "cell-1": { value: '', green: false, yellow: false },
+        "cell-2": { value: '', green: false, yellow: false },
+        "cell-3": { value: '', green: false, yellow: false },
+        "cell-4": { value: '', green: false, yellow: false },
+        "cell-5": { value: '', green: false, yellow: false },
+        "cell-6": { value: '', green: false, yellow: false },
+        "cell-7": { value: '', green: false, yellow: false },
+        "cell-8": { value: '', green: false, yellow: false },
+        "cell-9": { value: '', green: false, yellow: false },
+        "cell-10": { value: '', green: false, yellow: false },
+        "cell-11": { value: '', green: false, yellow: false },
+        "cell-12": { value: '', green: false, yellow: false },
+        "cell-13": { value: '', green: false, yellow: false },
+        "cell-14": { value: '', green: false, yellow: false },
+        "cell-15": { value: '', green: false, yellow: false },
+        "cell-16": { value: '', green: false, yellow: false },
+        "cell-17": { value: '', green: false, yellow: false },
+        "cell-18": { value: '', green: false, yellow: false },
+        "cell-19": { value: '', green: false, yellow: false },
+        "cell-20": { value: '', green: false, yellow: false },
+        "cell-21": { value: '', green: false, yellow: false },
+        "cell-22": { value: '', green: false, yellow: false },
+        "cell-23": { value: '', green: false, yellow: false },
+        "cell-24": { value: '', green: false, yellow: false },
+        "cell-25": { value: '', green: false, yellow: false },
+        "cell-26": { value: '', green: false, yellow: false },
+        "cell-27": { value: '', green: false, yellow: false },
+        "cell-28": { value: '', green: false, yellow: false },
+        "cell-29": { value: '', green: false, yellow: false },
+        "cell-30": { value: '', green: false, yellow: false },
     };
     const [inputValues, setInputValues] = useState({ ...initialValues });
 
@@ -63,7 +64,8 @@ const Board = () => {
         'chose', 'civil', 'claim', 'clean', 'clear',
         'click', 'clock', 'close', 'coach', 'coast',
         'could', 'count', 'court', 'cover', 'craft',
-        'cream', 'crime', 'cross', 'crown', 'curve',
+        'cream', 'crime', 'cross', 'crown', 'crust', 
+        'curve',
         'daily', 'dance', 'dated', 'dealt', 'death',
         'delay', 'depth', 'doubt', 'dozen', 'draft',
         'drama', 'drawn', 'dream', 'dress', 'drink',
@@ -108,7 +110,7 @@ const Board = () => {
         'proof', 'proud', 'prove', 'queen', 'quick',
         'quiet', 'quite', 'radio', 'raise', 'range',
         'rapid', 'ratio', 'reach', 'ready', 'refer',
-        'relay','reset',
+        'relay', 'reset',
         'right', 'rival', 'river', 'robin', 'roger',
         'roman', 'rough', 'round', 'route', 'royal',
         'rural', 'scale', 'scene', 'score', 'sense',
@@ -144,10 +146,10 @@ const Board = () => {
     ];
 
     /**
-     * Handles the start of the process.
-     *
-     * @return {void} No return value.
-     */
+    * Handles the start of the process.
+    *
+    * @return {void} No return value.
+    */
     const handleStart = () => {
         // Start the game
         randomizeWordle();
@@ -171,6 +173,8 @@ const Board = () => {
 
         setWordle(randomWord);
 
+        setHasCharacter(randomWord);
+
         console.log(randomWord);
     }
 
@@ -188,30 +192,30 @@ const Board = () => {
     };
 
     /**
-     * Determines if a row is disabled.
-     *
-     * @param {any} row - The row to check.
-     * @return {boolean} Returns true if the row is disabled, false otherwise.
-     */
+    * Determines if a row is disabled.
+    *
+    * @param {any} row - The row to check.
+    * @return {boolean} Returns true if the row is disabled, false otherwise.
+    */
     const isRowDisabled = (row) => {
         return row !== rowTurn;
     };
 
     /**
-     * Determines if a board is selected.
-     *
-     * @param {number} row - The row number of the board.
-     * @return {boolean} - Returns true if the given row is the selected row, otherwise false.
-     */
+    * Determines if a board is selected.
+    *
+    * @param {number} row - The row number of the board.
+    * @return {boolean} - Returns true if the given row is the selected row, otherwise false.
+    */
     const isBoardSelected = (row) => {
         return row === rowTurn;
     }
 
     /**
-     * Handles the focus on the first cell in a new row.
-     *
-     * @return {void} No return value.
-     */
+    * Handles the focus on the first cell in a new row.
+    *
+    * @return {void} No return value.
+    */
     const handleNewRowFocus = async () => {
         const cellName = await document.getElementById(`cell-${rowTurn * 5 + 1}`);
 
@@ -220,11 +224,11 @@ const Board = () => {
     }
 
     /**
-     * Selects the first cell and focuses on it after a delay of 200 milliseconds.
-     *
-     * @param {none} none
-     * @return {none} none
-     */
+    * Selects the first cell and focuses on it after a delay of 200 milliseconds.
+    *
+    * @param {none} none
+    * @return {none} none
+    */
     const handleFirstCellFocus = async () => {
         // Select the first cell and focus on it
         const firstCell = await document.getElementById("cell-1");
@@ -241,18 +245,28 @@ const Board = () => {
     * @return {type} The value of the matching cell.
     */
     const isCellMatching = (row, cell) => {
-        return inputValues[`cell-${(row - 1) * 5 + cell}`].match;
+        return inputValues[`cell-${(row - 1) * 5 + cell}`].green;
     }
 
-    const isUserGuessLetterInWordle = () => {
+    // FIX ME * FIX ME * FIX ME
+    const isUserGuessLetterInWordle = (row, cell) => {
+        const yellowLetters = [];
         // Check if user guess letter is in wordle
+        for (let i = 0; i < wordle.length; i++) {
+            if (wordle.indexOf(userGuess[i]) !== -1) {
+                yellowLetters.push(userGuess[i]);
+            }
+        }
+
+        // console.log(yellowLetters);
+        // return inputValues[`cell-${(row - 1) * 5 + cell}`].yellow;
     }
 
     /**
-     * Removes old values from inputValues and sets them to an empty string.
-     *
-     * @return {void} 
-     */
+    * Removes old values from inputValues and sets them to an empty string.
+    *
+    * @return {void} 
+    */
     const removeOldValues = () => {
         // Manually clear input values
         const clearedInputValues = Object.keys(inputValues).reduce((acc, key) => {
@@ -264,12 +278,12 @@ const Board = () => {
     }
 
     /**
-     * Sets input values on change event.
-     *
-     * @param {object} event - The change event object.
-     * @param {number} row - The row number.
-     * @param {number} cell - The cell number.
-     */
+    * Sets input values on change event.
+    *
+    * @param {object} event - The change event object.
+    * @param {number} row - The row number.
+    * @param {number} cell - The cell number.
+    */
     const setInputValuesOnChange = (event, row, cell) => {
         const value = event.target.value;
 
@@ -288,10 +302,10 @@ const Board = () => {
     };
 
     /**
-     * Handles next cell focus.
-     *
-     * @param {Event} event - The key up event.
-     */
+    * Handles next cell focus.
+    *
+    * @param {Event} event - The key up event.
+    */
     const handleNextCellFocus = (event) => {
         const currentCellId = event.target.id;
 
@@ -313,6 +327,71 @@ const Board = () => {
     }
 
     /**
+    * Prevents the default behavior of the backspace key and updates the user guess and input values.
+    *
+    * @param {object} event - The event object.
+    * @param {string} keyValue - The key value.
+    * @return {boolean} Returns true.
+    */
+    const backSpaceFunction = (event, keyValue) => {
+        if (keyValue === 'Backspace') {
+            // Prevent the default behavior of the backspace key
+            event.preventDefault();
+
+            // Get the current cell
+            const currentCellId = event.target.id;
+            const currentCellNumber = parseInt(currentCellId.split('-')[1]);
+
+            // Update the user guess
+            const newArrayGuess = [...userGuess];
+            newArrayGuess.pop();
+            newArrayGuess[currentCellNumber - 1] = '';
+            setUserGuess(newArrayGuess);
+
+            // Update the input values
+            setInputValues((inputValues) => {
+                const newInputValues = { ...inputValues };
+                newInputValues[currentCellId] = { value: '', green: false, yellow: false };
+                return newInputValues;
+            })
+
+            // Check if it's the first cell, no need to go back
+            if (currentCellNumber > 1) {
+                const previousCellId = `cell-${currentCellNumber - 1}`;
+                const previousCell = document.getElementById(previousCellId);
+
+                // Check if the previousCell is not null before focusing and selecting
+                if (previousCell) {
+                    previousCell.focus();
+                    previousCell.select();
+                }
+            }
+
+            return true;
+        }
+    }
+
+    /**
+    * Prevents the default behavior of the enter key and call handleSubmit function.
+    *
+    * @param {object} event - The event object.
+    * @param {string} keyValue - The key value.
+    * @return {boolean} Returns true.
+    */
+    const enterFunction = (event, keyValue) => {
+        if (keyValue === 'Enter') {
+            // Prevent the default behavior of the enter key
+            event.preventDefault();
+
+            // Submit the user's guess
+            handleSubmit();
+
+            // Return true to escape input change function
+            return true;
+        }
+    }
+
+    /**
     * Handles the input change event.
     *
     * @param {Object} event - The input change event object.
@@ -321,13 +400,23 @@ const Board = () => {
     const handleInputChange = (event, cell) => {
         const keyValue = event.key;
 
-        const cellLocation = cell;
-
         const newArrayGuess = [...userGuess];
 
-        newArrayGuess[cellLocation - 1] = keyValue.toLowerCase();
+        // Custom backspace function
+        if (backSpaceFunction(event, keyValue)) {
+            return;
+        }
+
+        // Custom enter function
+        if (enterFunction(event, keyValue)) {
+            return;
+        }
+
+        newArrayGuess[cell - 1] = keyValue.toLowerCase();
 
         setUserGuess(newArrayGuess);
+
+        console.log(newArrayGuess);
 
         setTimeout(() => {
             handleNextCellFocus(event);
@@ -344,7 +433,7 @@ const Board = () => {
     * @return {void}
     */
     const handleSubmit = () => {
-         // Check if user's word is 5 characters
+        // Check if user's word is 5 characters
         if (userGuess.join('').length !== 5) {
             alert('Word must be 5 characters.');
             return;
@@ -355,6 +444,9 @@ const Board = () => {
             alert("Word is not in Worldle's dictionary. Spell check or try another word.");
             return;
         }
+
+        // Check if cell should turn yellow
+        // isUserGuessLetterInWordle();
 
         // Check if user's word matches the wordle
         const updatedMatchingIndexes = [...matchingIndexes];
@@ -368,7 +460,7 @@ const Board = () => {
 
         setMatchingIndexes(updatedMatchingIndexes);
 
-        // Set match to true for all matching indexes
+        // Set green to true for all matching indexes
         setInputValues((inputValues) => {
             const newInputValues = { ...inputValues };
 
@@ -376,9 +468,9 @@ const Board = () => {
 
             updatedMatchingIndexes.forEach((index) => {
                 if (rowTurn === 1) {
-                    newInputValues[`cell-${index + 1}`].match = true;
+                    newInputValues[`cell-${index + 1}`].green = true;
                 } else (
-                    newInputValues[`cell-${(index + 1) + (cells * (rowTurn - 1))}`].match = true
+                    newInputValues[`cell-${(index + 1) + (cells * (rowTurn - 1))}`].green = true
                 )
             });
 
@@ -474,4 +566,4 @@ const Board = () => {
     );
 }
 
-export default Board
+export default Board;
