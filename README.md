@@ -26,3 +26,6 @@ Testing has not been intensive enough to squash out all bugs. If found they shal
 
 #### 12/27/23
 <li>User input is converted to lowercase</li>
+
+#### 12/28/23
+<li>Added custom Enter key and Backspace key functions</li>
