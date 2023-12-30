@@ -9,7 +9,7 @@ function App() {
         <Board />
         <i>*I am not the creator of this game.
           This is for educational purposes only.
-          This game is my interpertation of Wordle written in REACT.
+          This game is my interpretation of Wordle written in REACT.
         </i>
         <i>Source at Github:</i>
         <a

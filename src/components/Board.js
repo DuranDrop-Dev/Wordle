@@ -6,7 +6,6 @@ const Board = () => {
     const [rowTurn, setRowTurn] = useState(0);
     const [wordle, setWordle] = useState([]);
     const [matchingIndexes, setMatchingIndexes] = useState([]);
-    const [hasCharacter, setHasCharacter] = useState([]);
 
     const initialGuess = ['', '', '', '', ''];
     const [userGuess, setUserGuess] = useState([...initialGuess]);
@@ -52,23 +51,27 @@ const Board = () => {
         'apply', 'arena', 'argue', 'array', 'aside',
         'asset', 'audio', 'audit', 'award', 'badly',
         'baker', 'bases', 'basic', 'beach', 'begin',
-        'being', 'bench', 'billy', 'birth', 'black',
-        'blame', 'blind', 'blood', 'board', 'booth',
+        'being', 'below', 'bench', 'billy', 'birth',
+        'black',
+        'blame', 'blind', 'blink', 'block', 'blood',
+        'bored', 'bound', 'board', 'booth',
         'bound', 'brain', 'brand', 'bread', 'break',
         'brief', 'bring', 'broke', 'brown', 'build',
         'bully',
         'buyer', 'cable', 'calif', 'carry', 'catch',
         'cause', 'chain', 'chair', 'chart', 'cheap',
         'check', 'chest', 'chief', 'child', 'chill',
-        'china',
+        'china', 'chloe', 'choir', 'chord', 'chose',
         'chose', 'civil', 'claim', 'clean', 'clear',
-        'click', 'clock', 'close', 'coach', 'coast',
+        'click', 'clock', 'close', 'cloud', 'coach', 
+        'coast',
         'could', 'count', 'court', 'cover', 'craft',
-        'cream', 'crime', 'cross', 'crown', 'crust', 
+        'cream', 'crime', 'cross', 'crown', 'crust',
         'curve',
         'daily', 'dance', 'dated', 'dealt', 'death',
         'delay', 'depth', 'doubt', 'dozen', 'draft',
-        'drama', 'drawn', 'dream', 'dress', 'drink',
+        'drain', 'drama', 'drawn', 'dream', 'dress',
+        'drink',
         'drive', 'drove', 'eager', 'early', 'earth',
         'eight', 'elite', 'empty', 'enemy', 'enjoy',
         'enter', 'entry', 'equal', 'error', 'event',
@@ -103,7 +106,8 @@ const Board = () => {
         'order', 'other', 'ought', 'paint', 'panel',
         'paper', 'party', 'paste', 'peace', 'peter',
         'phase',
-        'phone', 'photo', 'piece', 'pilot', 'pitch',
+        'phone', 'photo', 'piece', 'pilot', 'pinky', 
+        'pitch',
         'place', 'plain', 'plane', 'plant', 'plate',
         'point', 'pound', 'power', 'press', 'price',
         'pride', 'prime', 'print', 'prior', 'prize',
@@ -131,7 +135,8 @@ const Board = () => {
         'theft', 'their', 'theme', 'there', 'these',
         'thick', 'thing', 'think', 'third', 'those',
         'three', 'threw', 'throw', 'tight', 'times',
-        'tired', 'title', 'today', 'topic', 'total',
+        'tired', 'title', 'today', 'token', 'topic', 
+        'total',
         'touch', 'tower', 'track', 'trade', 'train',
         'trend', 'trial', 'tried', 'tries', 'truck',
         'truly', 'trust', 'truth', 'twice', 'under',
@@ -172,8 +177,6 @@ const Board = () => {
         const randomWord = commonFiveLetterWords[randomIndex];
 
         setWordle(randomWord);
-
-        setHasCharacter(randomWord);
 
         console.log(randomWord);
     }
@@ -249,7 +252,7 @@ const Board = () => {
     }
 
     // FIX ME * FIX ME * FIX ME
-    const isUserGuessLetterInWordle = (row, cell) => {
+    const isLetterYellow = (row, cell) => {
         const yellowLetters = [];
         // Check if user guess letter is in wordle
         for (let i = 0; i < wordle.length; i++) {
@@ -368,15 +371,117 @@ const Board = () => {
     }
 
     /**
-    * Handles the input change event.
+    * Determines if a key is unwanted.
     *
-    * @param {Object} event - The input change event object.
+    * @param {Event} event - The event object.
+    * @param {string} keyValue - The value of the key.
+    * @returns {boolean} - Returns true if the key is unwanted, otherwise false.
+    */
+    const isUnwantedKey = (event, keyValue) => {
+        if (
+            keyValue === 'CapsLock' ||
+            keyValue === 'Shift' ||
+            keyValue === 'Control' ||
+            keyValue === 'Alt' ||
+            keyValue === 'Tab' ||
+            keyValue === 'Space' ||
+            keyValue === 'ArrowLeft' ||
+            keyValue === 'ArrowRight' ||
+            keyValue === 'ArrowUp' ||
+            keyValue === 'ArrowDown' ||
+            keyValue === 'Insert' ||
+            keyValue === 'Home' ||
+            keyValue === 'Delete' ||
+            keyValue === 'End' ||
+            keyValue === 'PageUp' ||
+            keyValue === 'PageDown' ||
+            keyValue === 'NumLock' ||
+            keyValue === 'Pause' ||
+            keyValue === 'ScrollLock' ||
+            keyValue === 'Meta' ||
+            keyValue === 'AltGraph' ||
+            keyValue === 'ContextMenu' ||
+            keyValue === 'AltGraph' ||
+            keyValue === 'Dead' ||
+            keyValue === 'F1' ||
+            keyValue === 'F2' ||
+            keyValue === 'F3' ||
+            keyValue === 'F4' ||
+            keyValue === 'F5' ||
+            keyValue === 'F6' ||
+            keyValue === 'F7' ||
+            keyValue === 'F8' ||
+            keyValue === 'F9' ||
+            keyValue === 'F10' ||
+            keyValue === 'F11' ||
+            keyValue === 'F12' ||
+            keyValue === 'Escape' ||
+            keyValue === '1' ||
+            keyValue === '2' ||
+            keyValue === '3' ||
+            keyValue === '4' ||
+            keyValue === '5' ||
+            keyValue === '6' ||
+            keyValue === '7' ||
+            keyValue === '8' ||
+            keyValue === '9' ||
+            keyValue === '0' ||
+            keyValue === '.' ||
+            keyValue === ',' ||
+            keyValue === ';' ||
+            keyValue === ':' ||
+            keyValue === '!' ||
+            keyValue === '@' ||
+            keyValue === '#' ||
+            keyValue === '$' ||
+            keyValue === '%' ||
+            keyValue === '^' ||
+            keyValue === '&' ||
+            keyValue === '*' ||
+            keyValue === '(' ||
+            keyValue === ')' ||
+            keyValue === '_' ||
+            keyValue === '+' ||
+            keyValue === '{' ||
+            keyValue === '}' ||
+            keyValue === '[' ||
+            keyValue === ']' ||
+            keyValue === '|' ||
+            keyValue === '-' ||
+            keyValue === '+' ||
+            keyValue === '<' ||
+            keyValue === '>' ||
+            keyValue === '?' ||
+            keyValue === '/' ||
+            keyValue === '`' ||
+            keyValue === '~' ||
+            keyValue === '=' ||
+            keyValue === "'" ||
+            keyValue === '"' ||
+            keyValue === "|" ||
+            keyValue === "\\" ||
+            keyValue === 'Clear'
+        ) {
+            event.preventDefault();
+            return true;
+        }
+    }
+
+    /**
+    * Handles KeyDown Event write input to inputValues state.
+    *
+    * @param {Object} event - The input event object.
+    * @param {number} row - The row location.
     * @param {number} cell - The cell location.
     */
-    const handleInputChange = (event, row, cell) => {
+    const handleKeyDown = (event, row, cell) => {
         const keyValue = event.key;
-
         const newArrayGuess = [...userGuess];
+
+        // Prevent the default behavior of unwanted keys
+        if (isUnwantedKey(event, keyValue)) {
+            return;
+        }
 
         // Custom backspace function
         if (backSpaceFunction(event, keyValue)) {
@@ -388,12 +493,11 @@ const Board = () => {
             return;
         }
 
+        // Update the user guess
         newArrayGuess[cell - 1] = keyValue.toLowerCase();
-
         setUserGuess(newArrayGuess);
 
-        console.log(newArrayGuess);
-
+        // Update the input values
         setInputValues((prevInputValues) => {
             const newInputValues = { ...prevInputValues };
 
@@ -533,11 +637,11 @@ const Board = () => {
                                 className={
                                     isCellMatching(rowIndex + 1, cellIndex + 1)
                                         ? "board-cell-green"
-                                        : isUserGuessLetterInWordle(rowIndex + 1, cellIndex + 1)
+                                        : isLetterYellow(rowIndex + 1, cellIndex + 1)
                                             ? "board-cell-yellow"
                                             : "board-cell"
                                 }
-                                onKeyDown={(event) => handleInputChange(event, rowIndex + 1, cellIndex + 1)}
+                                onKeyDown={(event) => handleKeyDown(event, rowIndex + 1, cellIndex + 1)}
                                 disabled={isRowDisabled(rowIndex + 1)}
                                 maxLength={1}
                                 id={cellKey}
