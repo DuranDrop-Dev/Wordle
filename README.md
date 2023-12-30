@@ -29,3 +29,6 @@ Testing has not been intensive enough to squash out all bugs. If found they shal
 
 #### 12/28/23
 <li>Added custom Enter key and Backspace key functions</li>
+
+#### 12/29/23
+<li>Yellow cells in alpha stage, sometimes turn yellow incorrectly</li>
