@@ -8,6 +8,7 @@ Live version of the web app can be found here: <a href="https://wordle.durandrop
 
 <li>User login</li>
 <li>User scoreboard</li>
+<li>User word suggestion request form</li>
 <li>Onscreen keyboard (maybe)</li>
 
 ## Known Issues
