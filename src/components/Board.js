@@ -5,7 +5,6 @@ const Board = () => {
     const [isStarted, setIsStarted] = useState(false);
     const [rowTurn, setRowTurn] = useState(0);
     const [wordle, setWordle] = useState([]);
-    const [matchingIndexes, setMatchingIndexes] = useState([]);
 
     const initialGuess = ['', '', '', '', ''];
     const [userGuess, setUserGuess] = useState([...initialGuess]);
@@ -59,11 +58,13 @@ const Board = () => {
         'brief', 'bring', 'broke', 'brown', 'build',
         'bully',
         'buyer', 'cable', 'calif', 'carry', 'catch',
-        'cause', 'chain', 'chair', 'chart', 'cheap',
-        'check', 'chest', 'chief', 'child', 'chill',
+        'cause', 'chain', 'chair', 'chart', 'chase',
+        'cheap',
+        'check', 'chest', 'chess', 'chief', 'child',
+        'chill',
         'china', 'chloe', 'choir', 'chord', 'chose',
         'chose', 'civil', 'claim', 'clean', 'clear',
-        'click', 'clock', 'close', 'cloud', 'coach', 
+        'click', 'clock', 'close', 'cloud', 'coach',
         'coast',
         'could', 'count', 'court', 'cover', 'craft',
         'cream', 'crime', 'cross', 'crown', 'crust',
@@ -106,7 +107,7 @@ const Board = () => {
         'order', 'other', 'ought', 'paint', 'panel',
         'paper', 'party', 'paste', 'peace', 'peter',
         'phase',
-        'phone', 'photo', 'piece', 'pilot', 'pinky', 
+        'phone', 'photo', 'piece', 'pilot', 'pinky',
         'pitch',
         'place', 'plain', 'plane', 'plant', 'plate',
         'point', 'pound', 'power', 'press', 'price',
@@ -125,7 +126,8 @@ const Board = () => {
         'slide', 'small', 'smart', 'smith', 'smoke',
         'solid', 'solve', 'sorry', 'sound', 'south',
         'space', 'spare', 'speak', 'speed', 'spend',
-        'spent', 'spoke', 'sport', 'staff', 'stage',
+        'spent', 'spoil', 'spoke', 'sport', 'staff', 
+        'stage',
         'stake', 'start', 'state', 'steam', 'steel',
         'stick', 'still', 'stock', 'stone', 'stood',
         'store', 'storm', 'story', 'strip', 'stuck',
@@ -135,7 +137,7 @@ const Board = () => {
         'theft', 'their', 'theme', 'there', 'these',
         'thick', 'thing', 'think', 'third', 'those',
         'three', 'threw', 'throw', 'tight', 'times',
-        'tired', 'title', 'today', 'token', 'topic', 
+        'tired', 'title', 'today', 'token', 'topic',
         'total',
         'touch', 'tower', 'track', 'trade', 'train',
         'trend', 'trial', 'tried', 'tries', 'truck',
@@ -247,22 +249,19 @@ const Board = () => {
     * @param {number} cell - The cell number.
     * @return {type} The value of the matching cell.
     */
-    const isCellMatching = (row, cell) => {
+    const isLetterGreen = (row, cell) => {
         return inputValues[`cell-${(row - 1) * 5 + cell}`].green;
     }
 
-    // FIX ME * FIX ME * FIX ME
+    /**
+    * Checks if a cell in a row matches a specific value.
+    *
+    * @param {number} row - The row number.
+    * @param {number} cell - The cell number.
+    * @return {type} The value of the matching cell.
+    */
     const isLetterYellow = (row, cell) => {
-        const yellowLetters = [];
-        // Check if user guess letter is in wordle
-        for (let i = 0; i < wordle.length; i++) {
-            if (wordle.indexOf(userGuess[i]) !== -1) {
-                yellowLetters.push(userGuess[i]);
-            }
-        }
-
-        // console.log(yellowLetters);
-        // return inputValues[`cell-${(row - 1) * 5 + cell}`].yellow;
+        return inputValues[`cell-${(row - 1) * 5 + cell}`].yellow;
     }
 
     /**
@@ -517,6 +516,39 @@ const Board = () => {
         }, 50);
     }
 
+    const findYellowIndexes = (word, greenIndexes) => {
+        // Create an array containing all indexes from 0 to word.length - 1
+        const allIndexes = Array.from({ length: word.length }, (_, index) => index);
+
+        // Use filter to find the missing indexes
+        const missingIndexes = allIndexes.filter(index => !greenIndexes.includes(index));
+
+        // Convert the missing indexes to an array of letters
+        const indexesToLetters = missingIndexes.map(index => word[index]);
+
+        // Loop through the missing letters to see if they match wordle
+        const yellowIndexes = [];
+        for (let i = 0; i < wordle.length; i++) {
+            if (wordle.includes(indexesToLetters[i])) {
+                yellowIndexes.push(i);
+            }
+        }
+
+        return yellowIndexes;
+    };
+
+    const findGreenIndexes = () => {
+        // Match userGuess with wordle indexes
+        const greenIndexes = [];
+        for (let i = 0; i < wordle.length; i++) {
+            if (wordle[i] === userGuess[i]) {
+                greenIndexes.push(i);
+            }
+        }
+
+        return greenIndexes;
+    }
+
     /**
     * Handles the submission.
     * Checks if the user's guess is valid and alerts if it is not.
@@ -539,28 +571,17 @@ const Board = () => {
             return;
         }
 
-        // Check if cell should turn yellow
-        // isUserGuessLetterInWordle();
+        // Find the matching indexes
+        const greenIndexes = findGreenIndexes();
+        const yellowIndexes = findYellowIndexes(userGuess, greenIndexes);
 
-        // Check if user's word matches the wordle
-        const updatedMatchingIndexes = [...matchingIndexes];
-
-        // Match userGuess with wordle indexes
-        for (let i = 0; i < wordle.length; i++) {
-            if (wordle[i] === userGuess[i]) {
-                updatedMatchingIndexes.push(i);
-            }
-        }
-
-        setMatchingIndexes(updatedMatchingIndexes);
-
-        // Set green to true for all matching indexes
+        // Set green to true for all matching indexes and yellow to true for yellow indexes
         setInputValues((inputValues) => {
             const newInputValues = { ...inputValues };
 
             const cells = 5
 
-            updatedMatchingIndexes.forEach((index) => {
+            greenIndexes.forEach((index) => {
                 if (rowTurn === 1) {
                     newInputValues[`cell-${index + 1}`].green = true;
                 } else (
@@ -568,11 +589,19 @@ const Board = () => {
                 )
             });
 
+            yellowIndexes.forEach((index) => {
+                if (rowTurn === 1) {
+                    newInputValues[`cell-${index + 1}`].yellow = true;
+                } else (
+                    newInputValues[`cell-${(index + 1) + (cells * (rowTurn - 1))}`].yellow = true
+                )
+            })
+
             return newInputValues;
         });
 
         // Check if User won
-        if (updatedMatchingIndexes.length === wordle.length) {
+        if (greenIndexes.length === wordle.length) {
             alert('You Win!');
 
             // Reset game state and update React state
@@ -581,8 +610,6 @@ const Board = () => {
             setRowTurn(1);
 
             setUserGuess([...initialGuess]);
-
-            setMatchingIndexes([]);
 
             randomizeWordle();
 
@@ -596,8 +623,6 @@ const Board = () => {
 
                 handleNewRowFocus();
 
-                setMatchingIndexes([]);
-
                 setUserGuess([...initialGuess]);
             } else {
                 // Alert losing message
@@ -609,8 +634,6 @@ const Board = () => {
                 setRowTurn(1);
 
                 setUserGuess([...initialGuess]);
-
-                setMatchingIndexes([]);
 
                 randomizeWordle();
 
@@ -635,7 +658,7 @@ const Board = () => {
                                 type="text"
                                 autoComplete="off"
                                 className={
-                                    isCellMatching(rowIndex + 1, cellIndex + 1)
+                                    isLetterGreen(rowIndex + 1, cellIndex + 1)
                                         ? "board-cell-green"
                                         : isLetterYellow(rowIndex + 1, cellIndex + 1)
                                             ? "board-cell-yellow"
