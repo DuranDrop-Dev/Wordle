@@ -5,9 +5,7 @@ const Board = () => {
     const [isStarted, setIsStarted] = useState(false);
     const [rowTurn, setRowTurn] = useState(0);
     const [wordle, setWordle] = useState([]);
-
-    const initialGuess = ['', '', '', '', ''];
-    const [userGuess, setUserGuess] = useState([...initialGuess]);
+    const [userGuess, setUserGuess] = useState([]);
 
     const initialValues = {
         "cell-1": { value: '', green: false, yellow: false },
@@ -105,7 +103,8 @@ const Board = () => {
         'night', 'noise', 'north', 'noted', 'novel',
         'nurse', 'occur', 'ocean', 'offer', 'often',
         'order', 'other', 'ought', 'paint', 'panel',
-        'paper', 'party', 'paste', 'peace', 'peter',
+        'paper', 'party', 'paste', 'patch', 'peace', 
+        'peter',
         'phase',
         'phone', 'photo', 'piece', 'pilot', 'pinky',
         'pitch',
@@ -323,7 +322,6 @@ const Board = () => {
             // Update the user guess
             const newArrayGuess = [...userGuess];
             newArrayGuess.pop();
-            newArrayGuess[currentCellNumber - 1] = '';
             setUserGuess(newArrayGuess);
 
             // Update the input values
@@ -474,8 +472,8 @@ const Board = () => {
     * @param {number} cell - The cell location.
     */
     const handleKeyDown = (event, row, cell) => {
+        // Get the key value
         const keyValue = event.key;
-        const newArrayGuess = [...userGuess];
 
         // Prevent the default behavior of unwanted keys
         if (isUnwantedKey(event, keyValue)) {
@@ -493,6 +491,7 @@ const Board = () => {
         }
 
         // Update the user guess
+        const newArrayGuess = [...userGuess];
         newArrayGuess[cell - 1] = keyValue.toLowerCase();
         setUserGuess(newArrayGuess);
 
@@ -502,11 +501,7 @@ const Board = () => {
 
             const key = `cell-${(row - 1) * 5 + cell}`;
 
-            newInputValues[key] = {
-                value: keyValue,
-                green: false,
-                yellow: false
-            };
+            newInputValues[key].value = keyValue.toLowerCase();
 
             return newInputValues;
         });
@@ -530,7 +525,7 @@ const Board = () => {
         const yellowIndexes = [];
         for (let i = 0; i < wordle.length; i++) {
             if (wordle.includes(indexesToLetters[i])) {
-                yellowIndexes.push(i);
+                yellowIndexes.push(missingIndexes[i]);
             }
         }
 
@@ -609,7 +604,7 @@ const Board = () => {
 
             setRowTurn(1);
 
-            setUserGuess([...initialGuess]);
+            setUserGuess([]);
 
             randomizeWordle();
 
@@ -623,7 +618,7 @@ const Board = () => {
 
                 handleNewRowFocus();
 
-                setUserGuess([...initialGuess]);
+                setUserGuess([]);
             } else {
                 // Alert losing message
                 alert('You Lose! Try Again! The Wordle was: ' + wordle.toUpperCase());
@@ -633,7 +628,7 @@ const Board = () => {
 
                 setRowTurn(1);
 
-                setUserGuess([...initialGuess]);
+                setUserGuess([]);
 
                 randomizeWordle();
 

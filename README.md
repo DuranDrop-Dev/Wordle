@@ -6,13 +6,13 @@ Live version of the web app can be found here: <a href="https://wordle.durandrop
 
 ## Future updates
 
-<li>Squares need to turn yellow if the letter is used in the wordle but is not in the right position</li>
-<li>Onscreen keyboard</li>
+<li>User login</li>
+<li>User scoreboard</li>
+<li>Onscreen keyboard (maybe)</li>
 
 ## Known Issues
 
 Testing has not been intensive enough to squash out all bugs. If found they shall be published here.
-<li>Further user input validation required</li>
 
 ## Changelog
 
@@ -32,3 +32,6 @@ Testing has not been intensive enough to squash out all bugs. If found they shal
 
 #### 12/29/23
 <li>Yellow cells in alpha stage, sometimes turn yellow incorrectly</li>
+
+#### 12/30/23
+<li>Yellow cell logic corrected</li>
