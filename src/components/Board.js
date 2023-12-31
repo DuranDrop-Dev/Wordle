@@ -2,44 +2,14 @@ import { useState } from 'react';
 
 // Board for a word-guessing game called Wordle.
 const Board = () => {
+    const CELL_PER_ROW = 5;
+    const BOARD_ROWS = 6;
+    const BOARD_CELLS = BOARD_ROWS * CELL_PER_ROW;
+
     const [isStarted, setIsStarted] = useState(false);
     const [rowTurn, setRowTurn] = useState(0);
     const [wordle, setWordle] = useState([]);
     const [userGuess, setUserGuess] = useState([]);
-
-    const initialValues = {
-        "cell-1": { value: '', green: false, yellow: false },
-        "cell-2": { value: '', green: false, yellow: false },
-        "cell-3": { value: '', green: false, yellow: false },
-        "cell-4": { value: '', green: false, yellow: false },
-        "cell-5": { value: '', green: false, yellow: false },
-        "cell-6": { value: '', green: false, yellow: false },
-        "cell-7": { value: '', green: false, yellow: false },
-        "cell-8": { value: '', green: false, yellow: false },
-        "cell-9": { value: '', green: false, yellow: false },
-        "cell-10": { value: '', green: false, yellow: false },
-        "cell-11": { value: '', green: false, yellow: false },
-        "cell-12": { value: '', green: false, yellow: false },
-        "cell-13": { value: '', green: false, yellow: false },
-        "cell-14": { value: '', green: false, yellow: false },
-        "cell-15": { value: '', green: false, yellow: false },
-        "cell-16": { value: '', green: false, yellow: false },
-        "cell-17": { value: '', green: false, yellow: false },
-        "cell-18": { value: '', green: false, yellow: false },
-        "cell-19": { value: '', green: false, yellow: false },
-        "cell-20": { value: '', green: false, yellow: false },
-        "cell-21": { value: '', green: false, yellow: false },
-        "cell-22": { value: '', green: false, yellow: false },
-        "cell-23": { value: '', green: false, yellow: false },
-        "cell-24": { value: '', green: false, yellow: false },
-        "cell-25": { value: '', green: false, yellow: false },
-        "cell-26": { value: '', green: false, yellow: false },
-        "cell-27": { value: '', green: false, yellow: false },
-        "cell-28": { value: '', green: false, yellow: false },
-        "cell-29": { value: '', green: false, yellow: false },
-        "cell-30": { value: '', green: false, yellow: false },
-    };
-    const [inputValues, setInputValues] = useState({ ...initialValues });
 
     const commonFiveLetterWords = [
         'actor', 'adopt', 'admit', 'adult', 'after',
@@ -157,7 +127,6 @@ const Board = () => {
     * @return {void} No return value.
     */
     const handleStart = () => {
-        // Start the game
         randomizeWordle();
 
         setRowTurn(1);
@@ -166,6 +135,15 @@ const Board = () => {
 
         handleFirstCellFocus();
     }
+
+    const generateInputValues = () => {
+        const newObject = {};
+        for (let i = 1; i <= BOARD_CELLS; i++) {
+            newObject[`cell-${i}`] = { value: '', green: false, yellow: false };
+        }
+        return newObject;
+    }
+    const [inputValues, setInputValues] = useState(generateInputValues());
 
     /**
     * Generates a random word from a list of common five-letter words and sets it as the value of the 'wordle' variable.
@@ -574,13 +552,11 @@ const Board = () => {
         setInputValues((inputValues) => {
             const newInputValues = { ...inputValues };
 
-            const cells = 5
-
             greenIndexes.forEach((index) => {
                 if (rowTurn === 1) {
                     newInputValues[`cell-${index + 1}`].green = true;
                 } else (
-                    newInputValues[`cell-${(index + 1) + (cells * (rowTurn - 1))}`].green = true
+                    newInputValues[`cell-${(index + 1) + (CELL_PER_ROW * (rowTurn - 1))}`].green = true
                 )
             });
 
@@ -588,7 +564,7 @@ const Board = () => {
                 if (rowTurn === 1) {
                     newInputValues[`cell-${index + 1}`].yellow = true;
                 } else (
-                    newInputValues[`cell-${(index + 1) + (cells * (rowTurn - 1))}`].yellow = true
+                    newInputValues[`cell-${(index + 1) + (CELL_PER_ROW * (rowTurn - 1))}`].yellow = true
                 )
             })
 
@@ -597,10 +573,13 @@ const Board = () => {
 
         // Check if User won
         if (greenIndexes.length === wordle.length) {
-            alert('You Win!');
+            // Alert winning message
+            alert('You Win! The Wordle was: ' + wordle.toUpperCase());
 
             // Reset game state and update React state
             removeOldValues();
+
+            generateInputValues();
 
             setRowTurn(1);
 
@@ -612,8 +591,7 @@ const Board = () => {
 
             return;
         } else {
-            if (rowTurn < 6) {
-                // next row
+            if (rowTurn < BOARD_ROWS) {
                 setRowTurn(rowTurn + 1);
 
                 handleNewRowFocus();
@@ -639,13 +617,13 @@ const Board = () => {
 
     return (
         <div className="board">
-            {Array.from({ length: 6 }).map((_, rowIndex) => (
+            {Array.from({ length: BOARD_ROWS }).map((_, rowIndex) => (
                 <div
                     className={isBoardSelected(rowIndex + 1) ? "board-row-selected" : "board-row"}
                     id={`row-${rowIndex + 1}`}
                     key={`row-${rowIndex + 1}`}
                 >
-                    {Array.from({ length: 5 }).map((_, cellIndex) => {
+                    {Array.from({ length: CELL_PER_ROW }).map((_, cellIndex) => {
                         const cellKey = `cell-${rowIndex * 5 + cellIndex + 1}`;
 
                         return (
