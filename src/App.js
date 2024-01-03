@@ -1,21 +1,22 @@
-import Board from './components/Board';
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { StateProvider } from './utils/StateContext';
+
 import './App.css';
+import Home from "./pages/Home";
+import Login from "./pages/Login";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Wordle</h1>
-        <Board />
-        <i>*I am not the creator of this game.
-          This is for educational purposes only.
-          This game is my interpretation of Wordle written in REACT.
-        </i>
-        <i>Source at Github:</i>
-        <a
-          href="https://github.com/DuranDrop-Dev/Wordle"
-          target="_blank"
-          rel="noopener noreferrer">Github</a>
+        <StateProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path='/' element={<Home />} />
+              <Route path='/Login' element={<Login />} />
+            </Routes>
+          </BrowserRouter>
+        </StateProvider>
       </header>
     </div>
   );

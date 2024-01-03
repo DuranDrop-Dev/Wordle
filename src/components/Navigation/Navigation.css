@@ -1,0 +1,56 @@
+/* Nav */
+.nav-container {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #2a3343;
+    display: flex;
+    flex-direction: row;
+    text-decoration: none;
+    padding: 0px;
+    z-index: 100;
+    border-bottom: gray;
+    justify-content: space-between;
+    align-items: center;
+    justify-items: center;
+}
+
+.nav-container ul {
+    margin: 0;
+    padding: 0;
+}
+
+.nav-container a {
+    color: #ffffff;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.navLogo {
+    padding: 0px 12px;
+    margin-top: 12px;
+    height: 35px;
+}
+
+.navProfile {
+    margin-top: 6px;
+    padding: 0px 12px;
+    border-radius: 50%;
+    width: 35px;
+    cursor: pointer;
+}
+
+.navTitle {
+    position: fixed;
+    height: 60px;
+    width: 100%;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #ffffff;
+    font-weight: normal;
+    background-color: var(--elBackground);
+    z-index: 99;
+}

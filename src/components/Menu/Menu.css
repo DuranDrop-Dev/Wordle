@@ -1,0 +1,92 @@
+/* Menu Button */
+.menuBtn {
+    width: 30px;
+    padding: 14px;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.menuBar1,
+.menuBar2,
+.menuBar3,
+.menuBar1Opened,
+.menuBar2Opened,
+.menuBar3Opened {
+    width: 26px;
+    height: 4px;
+    border-radius: 5px;
+    background-color: #ffffff;
+}
+
+.menuBar1 {
+    margin-top: 0px;
+}
+
+.menuBar2 {
+    margin-top: 5px;
+}
+
+.menuBar3 {
+    margin-top: 5px;
+}
+
+.menuBar1Opened {
+    position: absolute;
+    margin-top: 0px;
+    rotate: 45deg;
+}
+
+.menuBar2Opened {
+    margin-left: 15px;
+    width: 0px;
+}
+
+.menuBar3Opened {
+    position: absolute;
+    margin-top: -4px;
+    rotate: -45deg;
+}
+
+/* Menu Board */
+.close {
+    margin-top: 60px;
+    width: 0px;
+}
+
+.closeItem {
+    display: none;
+}
+
+.menuBoard {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    height: 0px;
+    margin: 0px;
+    margin-top: 60px;
+    width: 100%;
+    z-index: 100;
+}
+
+.liItem {
+    width: 100%;
+    padding: 10px 0px;
+    color: White;
+    font-weight: bold;
+    list-style: none;
+    background-color: #2a3343;
+    border-bottom: 1px solid gray;
+}
+
+.liItem:hover {
+    background-color: #1754bd;
+}
+
+.emptySpace {
+    margin: 0px;
+    margin-top: 0px;
+    width: 100vw;
+    height: 100dvh;
+    background-color: transparent;
+    z-index: 100;
+}
