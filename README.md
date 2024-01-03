@@ -6,7 +6,6 @@ Live version of the web app can be found here: <a href="https://wordle.durandrop
 
 ## Future updates
 
-<li>User login</li>
 <li>User scoreboard</li>
 <li>User word suggestion request form</li>
 <li>Onscreen keyboard (maybe)</li>
@@ -36,3 +35,10 @@ Testing has not been intensive enough to squash out all bugs. If found they shal
 
 #### 12/30/23
 <li>Yellow cell logic corrected</li>
+
+#### 1/2/24
+<li>Firebase Auth Initiated</li>
+<li>React-Router-Dom Added</li>
+<li>State-Context Added</li>
+<li>Navigation Added</li>
+<li>Login Forms Added</li>

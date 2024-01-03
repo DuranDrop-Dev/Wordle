@@ -6,8 +6,6 @@ const Home = () => {
         <>
             <Navigation />
             <h1>Wordle</h1>
-            <p>Enter a five letter word and guess it in six tries.</p>
-
             <Board />
             <i>*I am not the creator of this game.
                 This is for educational purposes only.

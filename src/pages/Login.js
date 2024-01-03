@@ -6,15 +6,13 @@ import { StateContext } from '../utils/StateContext';
 import { Link } from "react-router-dom";
 import EmailForm from "../components/EmailForm"
 import placeholder from "../assets/profilePlaceholder.svg"
-import { checkIfUser } from "../utils/UserData";
 
 const Login = ({ date }) => {
-    const [userType, setUserType] = useState('Boss');
     const [isChecked, setIsChecked] = useState(false);
     const [displayUserName, setDisplayUserName] = useState("Guest");
     const googleProvider = new GoogleAuthProvider();
 
-    const { user, email, loading } = useContext(StateContext);
+    const { user, loading } = useContext(StateContext);
 
     const emailAuth = getAuth();
     const emailUser = emailAuth.currentUser;
@@ -35,14 +33,6 @@ const Login = ({ date }) => {
     const enableLogin = () => {
         setIsChecked(!isChecked);
     }
-
-    useEffect(() => {
-        const userIs = async () => {
-            const data = await checkIfUser(email, displayUserName, date);
-            setUserType(data.userRole)
-        }
-        userIs();
-    }, [date, displayUserName, email]);
 
     // Get Display Name
     useEffect(() => {
@@ -142,7 +132,6 @@ const Login = ({ date }) => {
                                     />
                                 }
                                 <h3>Welcome, {displayUserName}</h3>
-                                <h5>({userType} User)</h5>
                                 <div className="user-logged-buttons">
                                     <Link to="/">
                                         <button>Home</button>
