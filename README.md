@@ -42,3 +42,7 @@ Testing has not been intensive enough to squash out all bugs. If found they shal
 <li>State-Context Added</li>
 <li>Navigation Added</li>
 <li>Login Forms Added</li>
+
+#### 1/3/24
+<li>useContext for props replaces useState props</li>
+<li>Minor css changes
