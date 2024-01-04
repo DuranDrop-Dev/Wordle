@@ -1,20 +1,22 @@
-import { useState } from 'react';
+import { useContext } from 'react';
+import { StateContext } from '../utils/StateContext';
 
 // Board for a word-guessing game called Wordle.
 const Board = () => {
     const CELL_PER_ROW = 5;
     const BOARD_ROWS = 6;
     const BOARD_CELLS = BOARD_ROWS * CELL_PER_ROW;
+    const {
+        isStarted, setIsStarted, rowTurn, setRowTurn,
+        wordle, setWordle, userGuess, setUserGuess,
+        inputValues, setInputValues
+    } = useContext(StateContext);
 
-    const [isStarted, setIsStarted] = useState(false);
-    const [rowTurn, setRowTurn] = useState(0);
-    const [wordle, setWordle] = useState([]);
-    const [userGuess, setUserGuess] = useState([]);
-
-    const commonFiveLetterWords = [
+    const wordleDictionary = [
         'actor', 'adopt', 'admit', 'adult', 'after',
         'again', 'agent', 'alarm', 'alive', 'allow',
-        'alone', 'alter', 'angel', 'apart', 'apple',
+        'alone', 'alter', 'angel', 'anger', 'angle',
+        'angry', 'apart', 'alpha', 'apple',
         'apply', 'arena', 'argue', 'array', 'aside',
         'asset', 'audio', 'audit', 'award', 'badly',
         'baker', 'bases', 'basic', 'beach', 'begin',
@@ -47,7 +49,8 @@ const Board = () => {
         'every', 'exact', 'exist', 'extra', 'faith',
         'false', 'fault', 'fiber', 'field', 'fifth',
         'fifty', 'fight', 'final', 'first', 'fixed',
-        'flash', 'fleet', 'floor', 'fluid', 'focus',
+        'flame', 'flash', 'fleet', 'float', 'floor',
+        'flour', 'flown', 'fluid', 'focus', 'foggy',
         'force', 'forth', 'forum', 'found', 'frame',
         'frank', 'fraud', 'fresh', 'front', 'fruit',
         'fudge', 'fully', 'funny', 'given', 'glass',
@@ -71,9 +74,10 @@ const Board = () => {
         'month', 'moral', 'motor', 'mount', 'mouse',
         'mouth', 'movie', 'music', 'needs', 'never',
         'night', 'noise', 'north', 'noted', 'novel',
-        'nurse', 'occur', 'ocean', 'offer', 'often',
+        'nurse', 'oasis', 'occur', 'ocean', 'offer',
+        'often', 'older', 'olive', 'omega', 'opera',
         'order', 'other', 'ought', 'paint', 'panel',
-        'paper', 'party', 'paste', 'patch', 'peace', 
+        'paper', 'party', 'paste', 'patch', 'peace',
         'peter',
         'phase',
         'phone', 'photo', 'piece', 'pilot', 'pinky',
@@ -95,7 +99,7 @@ const Board = () => {
         'slide', 'small', 'smart', 'smith', 'smoke',
         'solid', 'solve', 'sorry', 'sound', 'south',
         'space', 'spare', 'speak', 'speed', 'spend',
-        'spent', 'spoil', 'spoke', 'sport', 'staff', 
+        'spent', 'spoil', 'spoke', 'sport', 'staff',
         'stage',
         'stake', 'start', 'state', 'steam', 'steel',
         'stick', 'still', 'stock', 'stone', 'stood',
@@ -127,13 +131,17 @@ const Board = () => {
     * @return {void} No return value.
     */
     const handleStart = () => {
+        setInputValues(generateInputValues)
+
         randomizeWordle();
 
         setRowTurn(1);
 
         setIsStarted(true);
 
-        handleFirstCellFocus();
+        setTimeout(() => {
+            handleFirstCellFocus();
+        }, 50);
     }
 
     const generateInputValues = () => {
@@ -143,7 +151,6 @@ const Board = () => {
         }
         return newObject;
     }
-    const [inputValues, setInputValues] = useState(generateInputValues());
 
     /**
     * Generates a random word from a list of common five-letter words and sets it as the value of the 'wordle' variable.
@@ -151,9 +158,9 @@ const Board = () => {
     * @return {undefined} This function does not return anything.
     */
     const randomizeWordle = () => {
-        const randomIndex = Math.floor(Math.random() * commonFiveLetterWords.length);
+        const randomIndex = Math.floor(Math.random() * wordleDictionary.length);
 
-        const randomWord = commonFiveLetterWords[randomIndex];
+        const randomWord = wordleDictionary[randomIndex];
 
         setWordle(randomWord);
 
@@ -170,7 +177,7 @@ const Board = () => {
         const lowerCaseWord = userGuess.join('').toLowerCase();
 
         // Check if word is in dictionary
-        return commonFiveLetterWords.includes(lowerCaseWord);
+        return wordleDictionary.includes(lowerCaseWord);
     };
 
     /**
@@ -616,42 +623,52 @@ const Board = () => {
     }
 
     return (
-        <div className="board">
-            {Array.from({ length: BOARD_ROWS }).map((_, rowIndex) => (
-                <div
-                    className={isBoardSelected(rowIndex + 1) ? "board-row-selected" : "board-row"}
-                    id={`row-${rowIndex + 1}`}
-                    key={`row-${rowIndex + 1}`}
-                >
-                    {Array.from({ length: CELL_PER_ROW }).map((_, cellIndex) => {
-                        const cellKey = `cell-${rowIndex * 5 + cellIndex + 1}`;
+        <>
+            {isStarted &&
+                <div className="board">
+                    {Array.from({ length: BOARD_ROWS }).map((_, rowIndex) => (
+                        <div
+                            className={isBoardSelected(rowIndex + 1) ? "board-row-selected" : "board-row"}
+                            id={`row-${rowIndex + 1}`}
+                            key={`row-${rowIndex + 1}`}
+                        >
+                            {Array.from({ length: CELL_PER_ROW }).map((_, cellIndex) => {
+                                const cellKey = `cell-${rowIndex * 5 + cellIndex + 1}`;
 
-                        return (
-                            <input
-                                type="text"
-                                autoComplete="off"
-                                className={
-                                    isLetterGreen(rowIndex + 1, cellIndex + 1)
-                                        ? "board-cell-green"
-                                        : isLetterYellow(rowIndex + 1, cellIndex + 1)
-                                            ? "board-cell-yellow"
-                                            : "board-cell"
-                                }
-                                onKeyDown={(event) => handleKeyDown(event, rowIndex + 1, cellIndex + 1)}
-                                disabled={isRowDisabled(rowIndex + 1)}
-                                maxLength={1}
-                                id={cellKey}
-                                key={cellKey}
-                                value={inputValues[cellKey].value}
-                                onClick={(event) => event.target.select()}
-                            />
-                        );
-                    })}
+                                return (
+                                    <input
+                                        type="text"
+                                        autoComplete="off"
+                                        className={
+                                            isLetterGreen(rowIndex + 1, cellIndex + 1)
+                                                ? "board-cell-green"
+                                                : isLetterYellow(rowIndex + 1, cellIndex + 1)
+                                                    ? "board-cell-yellow"
+                                                    : "board-cell"
+                                        }
+                                        onKeyDown={(event) => handleKeyDown(event, rowIndex + 1, cellIndex + 1)}
+                                        disabled={isRowDisabled(rowIndex + 1)}
+                                        maxLength={1}
+                                        id={cellKey}
+                                        key={cellKey}
+                                        value={inputValues[cellKey].value}
+                                        onClick={(event) => event.target.select()}
+                                    />
+                                );
+                            })}
+                        </div>
+                    ))}
+
+                    {isStarted && <button className='submit' onClick={handleSubmit}>Submit</button>}
                 </div>
-            ))}
-            {!isStarted && <button className='submit' onClick={handleStart}>Start</button>}
-            {isStarted && <button className='submit' onClick={handleSubmit}>Submit</button>}
-        </div>
+            }
+            {!isStarted &&
+                <>
+                    <p>5 letter word guessing game</p>
+                    <button className='submit' onClick={handleStart}>Start</button>
+                </>
+            }
+        </>
     );
 }
 
