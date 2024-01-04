@@ -60,7 +60,7 @@ function EmailForm({ isChecked }) {
         }
     }
 
-    //Loging with email get form data
+    //Login with email get form data
     const handleLoginBtn = (e) => {
         e.preventDefault();
         // Send data to firebase

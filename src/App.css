@@ -3,13 +3,13 @@
 }
 
 .App-header {
-  margin-top: 40px;
+  margin-top: 60px;
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   font-size: calc(10px + 2vmin);
   color: white;
 }
@@ -116,4 +116,120 @@ button {
   border: 1px solid #ffffff;
   border-radius: 10px;
   cursor: pointer;
+}
+
+/* User */
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.login-container a {
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.user-logged-container,
+.summaryPage {
+  display: flex;
+  flex-direction: column;
+  max-width: 600px;
+  width: 97%;
+  border-radius: 10px;
+  padding: 10px 0px 20px 0px;
+  gap: 10px;
+  margin: 10px;
+  border: white;
+  box-shadow: gray;
+}
+
+.user-logged-container {
+  align-items: center;
+}
+
+.user-photo {
+  width: 80px;
+  border-radius: 50%;
+}
+
+/* Terms & Conditions */
+.labelContainer {
+  margin-top: -20px;
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+}
+
+.login-card p {
+  margin: 20px;
+}
+
+.login-box {
+  margin: 10px;
+  box-shadow: 0px 6px 20px #171717;
+  width: auto;
+  padding: 30px;
+  border-radius: 10px;
+}
+
+.login-box button {
+  margin-top: 10px;
+}
+
+.backBtn {
+  padding: 10px;
+  align-self: start;
+}
+
+.termPage,
+.priv {
+  margin-top: 60px;
+  text-align: left;
+  max-width: 600px;
+  width: 90vw;
+}
+
+.termPage p {
+  font-weight: normal;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
+  margin: 5px;
+  align-items: center;
+  justify-content: center;
+}
+
+.inputContainer input {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid white;
+  background-color: rgb(188, 188, 188);
+  outline: none;
+}
+
+.inputContainer label {
+  font-size: 12px;
+}
+
+.inputContainer p {
+  font-size: 14px;
+}
+
+.textBtn {
+  border: none;
+  padding: 0;
+  font-weight: bold;
+  background: none;
+}
+
+.myForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
