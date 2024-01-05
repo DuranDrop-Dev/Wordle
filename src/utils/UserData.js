@@ -9,7 +9,7 @@ import axios from "axios";
 export const checkIfUser = async (email) => {
     try {
         // Define the API URL
-        const url = 'https://durandrop.com/api/UserStats.php';
+        const url = 'https://wordle.durandrop.com/api/UserStats.php';
 
         // Send a GET request to the API
         const response = await axios.get(url, {

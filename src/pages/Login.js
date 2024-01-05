@@ -4,8 +4,9 @@ import { GoogleAuthProvider, signInWithPopup, getAuth } from "firebase/auth";
 import { auth } from "../utils/Firebase";
 import { StateContext } from '../utils/StateContext';
 import { Link } from "react-router-dom";
-import EmailForm from "../components/EmailForm"
-import placeholder from "../assets/profilePlaceholder.svg"
+import EmailForm from "../components/EmailForm";
+import placeholder from "../assets/profilePlaceholder.svg";
+import { checkIfUser } from "../utils/UserData";
 
 const Login = ({ date }) => {
     const [isChecked, setIsChecked] = useState(false);
@@ -16,6 +17,15 @@ const Login = ({ date }) => {
 
     const emailAuth = getAuth();
     const emailUser = emailAuth.currentUser;
+
+    const [userData, setUserData] = useState({
+        UserId: '',
+        TotalGames: '',
+        TotalWins: '',
+        TotalLost: '',
+        LongestWinStreak: ''
+    });
+    const [showStats, setShowStats] = useState(false);
 
     const GoogleLogin = async () => {
         try {
@@ -32,6 +42,16 @@ const Login = ({ date }) => {
 
     const enableLogin = () => {
         setIsChecked(!isChecked);
+    }
+
+    const getUserData = async () => {
+        try {
+            const data = await checkIfUser(emailUser.email);
+            setUserData(data[0]);
+            setShowStats(true);
+        } catch (error) {
+            console.log("getUserData Error:", error);
+        }
     }
 
     // Get Display Name
@@ -137,6 +157,18 @@ const Login = ({ date }) => {
                                         <button>Home</button>
                                     </Link>
                                     <button onClick={Logout}>Logout</button>
+                                    <button onClick={getUserData}>Stats</button>
+                                    
+                                    {showStats &&
+                                        <div>
+                                            <h3>User Stats</h3>
+                                            <p>Total Games: {userData.TotalGames}</p>
+                                            <p>Total Wins: {userData.TotalWins}</p>
+                                            <p>Total Losses: {userData.TotalLost}</p>
+                                            <p>Longest Win Streak: {userData.LongestWinStreak}</p>
+                                        </div>
+                                    }
+
                                 </div>
                             </div>
                         </>
