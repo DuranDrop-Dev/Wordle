@@ -4,21 +4,17 @@ import axios from "axios";
  * Check if the user exists in the database.
  * 
  * @param {string} email - The user's email address.
- * @param {string} displayName - The user's display name.
- * @param {string} date - The date the user was created.
  * @returns {Promise<object>} - The response data from the API.
  */
-export const checkIfUser = async (email, displayName, date) => {
+export const checkIfUser = async (email) => {
     try {
         // Define the API URL
-        const url = 'https://gigsidekick.click/api/DB/CheckUser.php';
+        const url = 'https://durandrop.com/api/UserStats.php';
 
         // Send a GET request to the API
         const response = await axios.get(url, {
             params: {
-                email: email,
-                displayName: displayName,
-                createdAt: date
+                email: email
             }
         });
 
