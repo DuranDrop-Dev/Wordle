@@ -27,6 +27,36 @@ a {
   color: #00d9ff;
 }
 
+table {
+  width: 95%;
+  border-collapse: separate;
+  margin-bottom: 20px;
+}
+
+th,
+td {
+  padding: 8px;
+  text-align: center;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+th {
+  background-color: transparent;
+}
+
+tr:hover {
+  background-color: #1b1b1b;
+}
+
+.user-stats,
+.user-logged-container {
+  margin: 20px 10px;
+  border-radius: 20px;
+  padding: 10px;
+  box-shadow: #171717 0px 0px 10px;
+}
+
 ::selection {
   position: relative;
   background-color: #282c34;
@@ -133,18 +163,11 @@ button {
   text-decoration: none;
 }
 
-.user-logged-container,
-.summaryPage {
+.user-logged-container {
   display: flex;
   flex-direction: column;
-  max-width: 600px;
-  width: 97%;
-  border-radius: 10px;
-  padding: 10px 0px 20px 0px;
   gap: 10px;
-  margin: 10px;
   border: white;
-  box-shadow: gray;
 }
 
 .user-logged-container {

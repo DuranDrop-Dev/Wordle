@@ -158,19 +158,33 @@ const Login = ({ date }) => {
                                     </Link>
                                     <button onClick={Logout}>Logout</button>
                                     <button onClick={getUserData}>Stats</button>
-                                    
-                                    {showStats &&
-                                        <div>
-                                            <h3>User Stats</h3>
-                                            <p>Total Games: {userData.TotalGames}</p>
-                                            <p>Total Wins: {userData.TotalWins}</p>
-                                            <p>Total Losses: {userData.TotalLost}</p>
-                                            <p>Longest Win Streak: {userData.LongestWinStreak}</p>
-                                        </div>
-                                    }
-
                                 </div>
                             </div>
+                            {showStats &&
+                                <div className="user-stats">
+                                    <center>
+                                        <h3>User Stats</h3>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Total Games</th>
+                                                    <th>Total Wins</th>
+                                                    <th>Total Losses</th>
+                                                    <th>Longest Win Streak</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>{userData.TotalGames}</td>
+                                                    <td>{userData.TotalWins}</td>
+                                                    <td>{userData.TotalLost}</td>
+                                                    <td>{userData.LongestWinStreak}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </center>
+                                </div>
+                            }
                         </>
                     )}
                 </div>
