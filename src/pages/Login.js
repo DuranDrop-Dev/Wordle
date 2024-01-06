@@ -44,7 +44,7 @@ const Login = ({ date }) => {
         setIsChecked(!isChecked);
     }
 
-    const getUserData = async () => {
+    const getUserID = async () => {
         try {
             const data = await checkIfUser(emailUser.email);
             setUserData(data[0]);
@@ -70,7 +70,6 @@ const Login = ({ date }) => {
             }
             // Set Result
             setDisplayUserName(userDisplayName());
-            console.log('Welcome, ' + userDisplayName());
 
         } catch (error) {
             console.log("DisplayName Error:", error);
@@ -157,7 +156,7 @@ const Login = ({ date }) => {
                                         <button>Home</button>
                                     </Link>
                                     <button onClick={Logout}>Logout</button>
-                                    <button onClick={getUserData}>Stats</button>
+                                    <button onClick={getUserID}>Stats</button>
                                 </div>
                             </div>
                             {showStats &&
@@ -170,7 +169,6 @@ const Login = ({ date }) => {
                                                     <th>Total Games</th>
                                                     <th>Total Wins</th>
                                                     <th>Total Losses</th>
-                                                    <th>Longest Win Streak</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -178,7 +176,6 @@ const Login = ({ date }) => {
                                                     <td>{userData.TotalGames}</td>
                                                     <td>{userData.TotalWins}</td>
                                                     <td>{userData.TotalLost}</td>
-                                                    <td>{userData.LongestWinStreak}</td>
                                                 </tr>
                                             </tbody>
                                         </table>

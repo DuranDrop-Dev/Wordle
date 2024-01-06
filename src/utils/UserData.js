@@ -9,7 +9,8 @@ import axios from "axios";
 export const checkIfUser = async (email) => {
     try {
         // Define the API URL
-        const url = 'https://wordle.durandrop.com/api/UserStats.php';
+        const url = 'https://wordle.durandrop.com/api/user.php';
+        // const url = 'http://localhost:3000/private/WordleAPI/user.php';
 
         // Send a GET request to the API
         const response = await axios.get(url, {
@@ -23,6 +24,51 @@ export const checkIfUser = async (email) => {
 
         // Return the results
         return results;
+    } catch (error) {
+        // Log any errors that occur
+        console.log(error);
+    }
+}
+
+/**
+ * Update the user stats in the database.
+ * 
+ * @param {string} email - The user's email address.
+ * @param {object} payload - The user payload.
+ */
+export const updateUserStats = async (email, payload) => {
+    try {
+        // Define the API URL
+        const url = 'https://wordle.durandrop.com/api/stats.php';
+        // const url = 'http://localhost:3000/private/WordleAPI/stats.php';
+
+        // Define the games, wins, and losses
+        const games = payload.totalGames;
+        const wins = payload.totalWins;
+        const losses = payload.totalLosses;
+
+        const packedPayload = {
+            email: email,
+            games: games,
+            wins: wins,
+            losses: losses
+        }
+
+        // Send a PUT request to the API
+        const response = await axios.put(url, packedPayload);
+
+        // Get the results from the response
+        const results = response.data;
+
+        // Log the results
+        if (results) {
+            console.log('updateUserStats:', results);
+        }
+
+        // Log a message if no data is returned
+        if (!results) {
+            console.log("updateUserStats: No data");
+        }
     } catch (error) {
         // Log any errors that occur
         console.log(error);

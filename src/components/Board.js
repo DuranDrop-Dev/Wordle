@@ -1,11 +1,17 @@
 import { useContext } from 'react';
 import { StateContext } from '../utils/StateContext';
+import { updateUserStats } from '../utils/UserData';
+import { getAuth } from 'firebase/auth';
 
 // Board for a word-guessing game called Wordle.
-const Board = () => {
+const Board = ( email ) => {
     const CELL_PER_ROW = 5;
     const BOARD_ROWS = 6;
     const BOARD_CELLS = BOARD_ROWS * CELL_PER_ROW;
+
+    const emailAuth = getAuth();
+    const emailUser = emailAuth.currentUser;
+
     const {
         isStarted, setIsStarted, rowTurn, setRowTurn,
         wordle, setWordle, userGuess, setUserGuess,
@@ -529,6 +535,16 @@ const Board = () => {
         return greenIndexes;
     }
 
+    const userGameResult = async () => {
+        const payload = {
+            totalGames: 1,
+            totalWins: (userGuess.join('').toLowerCase() === wordle.toLowerCase() ? 1 : 0),
+            totalLosses: (userGuess.join('').toLowerCase() === wordle.toLowerCase() ? 0 : 1),
+        }
+
+        await updateUserStats(emailUser.email, payload);
+    }
+
     /**
     * Handles the submission.
     * Checks if the user's guess is valid and alerts if it is not.
@@ -584,6 +600,8 @@ const Board = () => {
             alert('You Win! The Wordle was: ' + wordle.toUpperCase());
 
             // Reset game state and update React state
+            userGameResult();
+
             removeOldValues();
 
             generateInputValues();
@@ -609,6 +627,8 @@ const Board = () => {
                 alert('You Lose! Try Again! The Wordle was: ' + wordle.toUpperCase());
 
                 // Reset game state and update React state
+                userGameResult();
+
                 removeOldValues();
 
                 setRowTurn(1);
