@@ -45,4 +45,9 @@ Testing has not been intensive enough to squash out all bugs. If found they shal
 
 #### 1/3/24
 <li>useContext for props replaces useState props</li>
-<li>Minor css changes
+<li>Minor css changes</li>
+
+#### 1/5/24
+<li>Stats are recorded to DB</li>
+<li>Stats added to login page</li>
+<li>Back end completed</li>
